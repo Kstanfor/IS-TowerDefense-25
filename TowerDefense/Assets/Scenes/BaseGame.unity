@@ -8004,6 +8004,7 @@ MonoBehaviour:
   enemyPrefab: {fileID: 2554639770068251692, guid: 1c6099143c57a6d4fb07fc73e90481bd, type: 3}
   spawnPoint: {fileID: 297776289}
   betweenWaves: 10
+  waveCountdownText: {fileID: 791042816}
 --- !u!4 &1000533922
 Transform:
   m_ObjectHideFlags: 0
