@@ -42,7 +42,7 @@ GameObject:
   - component: {fileID: 5346963770647148123}
   - component: {fileID: 4214361270282917117}
   m_Layer: 0
-  m_Name: Missile Launcher
+  m_Name: MissileLauncher
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -83,7 +83,7 @@ MonoBehaviour:
   enemyTag: Enemy
   PartToRotate: {fileID: 3982702489381166009}
   turnSpeed: 10
-  bulletPrefab: {fileID: 2408052683539426986, guid: 67dd5e0461e09f242992a1406147c030, type: 3}
+  bulletPrefab: {fileID: 254079810862250697, guid: b170c3c760c797b42b45fc8bf0421df4, type: 3}
   firePoint: {fileID: 2769024087809493358}
 --- !u!1 &5613322361353395643
 GameObject:
