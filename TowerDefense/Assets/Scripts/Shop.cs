@@ -3,6 +3,9 @@ using UnityEngine;
 
 public class Shop : MonoBehaviour
 {
+    public TurretBlueprint standardTurret;
+    public TurretBlueprint missleLauncher;
+
     BuildManager buildManager;
 
     void Start ()
@@ -12,13 +15,13 @@ public class Shop : MonoBehaviour
    public void SelectStandardTurret ()
     {
         Debug.Log("Standard Turret Selected");
-        buildManager.SetTurretToBuild(buildManager.standardTurretPrefab);
+        buildManager.SelectTurretToBuild(standardTurret);
     }
 
     public void SelectMissleLauncher()
     {
         Debug.Log("Missle Launcher Selected");
-        buildManager.SetTurretToBuild(buildManager.missleLauncherPrefab);
+        buildManager.SelectTurretToBuild(missleLauncher);
     }
 
     /* Copy and paste to create again for other turret variants 
