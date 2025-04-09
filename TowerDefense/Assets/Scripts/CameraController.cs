@@ -6,7 +6,6 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    private bool movement = true;
 
     public float panSpeed = 20f;
     public float panBoarderThickness = 10f;
@@ -27,15 +26,6 @@ public class CameraController : MonoBehaviour
         if (GameManager.GameIsOver)
         {
             this.enabled = false;
-            return;
-        }
-
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            movement = !movement;
-        }
-        if (!movement)
-        {
             return;
         }
 
