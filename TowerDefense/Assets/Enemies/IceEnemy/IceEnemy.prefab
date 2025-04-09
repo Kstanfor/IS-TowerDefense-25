@@ -268,7 +268,7 @@ GameObject:
   - component: {fileID: 7262174807755894737}
   - component: {fileID: -3545398087655973600}
   m_Layer: 0
-  m_Name: Enemy
+  m_Name: IceEnemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -318,7 +318,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 79fb5bea5c658b34cb421bebe4ffa751, type: 2}
+  - {fileID: 2100000, guid: 6f9d5496b84e59645b6b4b3fb948ddd6, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -373,11 +373,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c81a6c47660058743b83af77bca73646, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startSpeed: 10
+  startSpeed: 5
   speed: 10
-  startHealth: 100
-  valueOfEnemy: 25
-  deathEffect: {fileID: 2578218239889877152, guid: eabb11cd09cf4544599e535cc5377fc2, type: 3}
+  startHealth: 200
+  valueOfEnemy: 75
+  deathEffect: {fileID: 2578218239889877152, guid: 5c65a93e165e1b045ac7f55e32022f66, type: 3}
   healthBar: {fileID: 2262056437716400417}
 --- !u!114 &-3545398087655973600
 MonoBehaviour:
