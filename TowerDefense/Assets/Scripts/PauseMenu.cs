@@ -5,6 +5,8 @@ public class PauseMenu : MonoBehaviour
 {
     public GameObject ui;
 
+    public string levelToLoad = "MainMenu";
+
     void Update()
     {
        if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.P))
@@ -35,6 +37,7 @@ public class PauseMenu : MonoBehaviour
 
     public void Menu()
     {
+        SceneManager.LoadScene(levelToLoad);
         Debug.Log("Go To Menu.");
     }
 }
