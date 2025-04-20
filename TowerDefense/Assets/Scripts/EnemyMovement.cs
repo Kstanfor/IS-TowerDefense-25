@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+
 using UnityEngine;
 
 [RequireComponent(typeof(Enemy))]
@@ -14,10 +15,15 @@ public class EnemyMovement : MonoBehaviour
     {
         enemy = GetComponent<Enemy>();
         target = Waypoints.points[0];
+
+        enemy.speed = enemy.startSpeed;
     }
 
     void Update()
     {
+        if (Mathf.Abs(enemy.speed - enemy.startSpeed) > 0.01f)
+            Debug.Log($"[EnemyMovement] current speed = {enemy.speed}");
+
         Vector3 direction = target.position - transform.position;
         transform.Translate(direction.normalized * enemy.speed * Time.deltaTime, Space.World);
 
@@ -26,7 +32,7 @@ public class EnemyMovement : MonoBehaviour
             GetNextWaypoint();
         }
 
-        enemy.speed = enemy.startSpeed;
+        //enemy.speed = enemy.startSpeed;
     }
 
     void GetNextWaypoint()

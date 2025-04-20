@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿
+using UnityEngine;
 
 public class Turretv2 : MonoBehaviour
 {
@@ -159,6 +160,8 @@ public class Turretv2 : MonoBehaviour
             bullet.statusTickInterval = statusTickInterval;
             bullet.statusDamage = statusDamage;
             bullet.slowAmount = slowAmount;
+            //Debug.Log($"[Turret] Fired a {elementType} bullet - duration = {statusDuration}");
+            Debug.Log($"[Turret] Fired a {elementType} bullet → slow={slowAmount}, dot={statusDamage}");
         }
 
         Debug.Log("Shooting!!!!!!!");

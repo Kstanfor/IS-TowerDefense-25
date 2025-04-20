@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -39,6 +40,7 @@ public class Enemyv2 : MonoBehaviour
     /// <summary>Burn: deals damagePerTick every interval seconds, for duration seconds.</summary>
     public IEnumerator Burn(int damagePerTick, float duration, float interval)
     {
+        Debug.Log($"[Enemy] Started Burn: {damagePerTick} dmg every {interval}s for {duration}s");
         float elapsed = 0f;
         while (elapsed < duration)
         {
@@ -51,15 +53,27 @@ public class Enemyv2 : MonoBehaviour
     /// <summary>Water slow: reduces speed by pct for duration, then restores.</summary>
     public IEnumerator SlowRoutine(float pct, float duration)
     {
-        float original = speed;
-        speed = startSpeed * (1f - pct);
-        yield return new WaitForSeconds(duration);
-        speed = original;
+        Debug.Log($"[Enemy] SlowRoutine started: pct={pct}, duration={duration}");
+        //float original = speed;
+        //speed = startSpeed * (1f - pct);
+        //yield return new WaitForSeconds(duration);
+        //speed = original;
+
+        float endTime = Time.time + duration;
+        while (Time.time < endTime)
+        {
+            // continuously enforce the reduced speed
+            speed = startSpeed * (1f - pct);
+            yield return null;  // wait until next frame
+        }
+        speed = startSpeed;
+        Debug.Log("[Enemy] SlowRoutine ended, speed restored");
     }
 
     /// <summary>Ice freeze: zeroes speed for duration, then restores.</summary>
     public IEnumerator FreezeRoutine(float duration)
     {
+        Debug.Log($"[Enemy] FreezeRoutine started: duration={duration}");
         float original = speed;
         speed = 0f;
         yield return new WaitForSeconds(duration);

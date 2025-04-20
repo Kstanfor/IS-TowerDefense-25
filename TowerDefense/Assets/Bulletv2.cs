@@ -92,16 +92,19 @@ public class Bulletv2 : MonoBehaviour
         {
             case ElementType.Fire:
                 // Burn damage over time
+                Debug.Log("[Bullet] applying Fire dot");
                 e.StartCoroutine(e.Burn(statusDamage, statusDuration, statusTickInterval));
                 break;
 
             case ElementType.Water:
                 // Slow movement for duration
+                Debug.Log($"[Bullet] Applying Water slow: pct={slowAmount}, dur={statusDuration}");
                 e.StartCoroutine(e.SlowRoutine(slowAmount, statusDuration));
                 break;
 
             case ElementType.Ice:
                 // Freeze (zero speed) for duration
+                Debug.Log("[Bullet] Applying Ice freeze");
                 e.StartCoroutine(e.FreezeRoutine(statusDuration));
                 break;
 

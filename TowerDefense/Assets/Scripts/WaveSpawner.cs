@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine.UI;
 
 
+
 public class WaveSpawner : MonoBehaviour
 {
     public static int EnemiesAlive = 0;
@@ -24,6 +25,12 @@ public class WaveSpawner : MonoBehaviour
         {
             return;
         }
+
+        if (waveIndex >= waves.Length) //new
+        {
+            return;
+        }
+
         if (countDown <= 0f) 
         {
             StartCoroutine(SpawnWave());
@@ -44,20 +51,35 @@ public class WaveSpawner : MonoBehaviour
 
         Wave wave = waves[waveIndex];
 
-        for (int i = 0; i < wave.enemyCount; i++)
-        {
-            SpawnEnemy(wave.enemyPrefab);
-            yield return new WaitForSeconds(1f / wave.spawnRate);
-        }
+        //  for (int i = 0; i < wave.enemyCount; i++)
+        //  {
+        //     SpawnEnemy(wave.enemyPrefab);
+        //     yield return new WaitForSeconds(1f / wave.spawnRate);
+        //  }
 
+        //  waveIndex++;
+        //  Debug.Log("Wave Incoming!!!");
+
+        // if (waveIndex == waves.Length)
+        // {
+        //    Debug.Log("LEVEL WON!");
+        //   this.enabled = false;
+        //}
+
+        for (int z = 0; z < wave.enemies.Length; z++)
+        {
+            for (int i = 0; i < wave.enemies[z].count; i++)
+            {
+                SpawnEnemy(wave.enemies[z].enemy);
+                yield return new WaitForSeconds(1f / wave.spawnRate);
+            }
+            if (waveIndex == waves.Length)
+            {
+                Debug.Log("TODO - End Level");
+                this.enabled = false;
+            }
+        }
         waveIndex++;
-        Debug.Log("Wave Incoming!!!");
-
-        if (waveIndex == waves.Length)
-        {
-            Debug.Log("LEVEL WON!");
-            this.enabled = false;
-        }
     }
 
     void SpawnEnemy (GameObject enemyPrefab)
