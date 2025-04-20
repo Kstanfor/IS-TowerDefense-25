@@ -116,9 +116,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   element: 2
   statusDuration: 10
-  statusTickInterval: 0
+  statusTickInterval: 1
   statusDamage: 0
-  slowAmount: 100
+  slowAmount: 5
   target: {fileID: 0}
   speed: 70
   damage: 50

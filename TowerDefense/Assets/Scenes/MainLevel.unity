@@ -7412,7 +7412,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3728690395638623223, guid: 7867551aa7d5bd34d95de626e7c6e790, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 35
+      value: 30.78
       objectReference: {fileID: 0}
     - target: {fileID: 3728690395638623223, guid: 7867551aa7d5bd34d95de626e7c6e790, type: 3}
       propertyPath: m_LocalPosition.y
@@ -7453,10 +7453,6 @@ PrefabInstance:
     - target: {fileID: 4320731369915635287, guid: 7867551aa7d5bd34d95de626e7c6e790, type: 3}
       propertyPath: m_Name
       value: WaterTurretStandard
-      objectReference: {fileID: 0}
-    - target: {fileID: 4320731369915635287, guid: 7867551aa7d5bd34d95de626e7c6e790, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -9133,7 +9129,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 388383475857077387, guid: c8d67087318dfd44c8bca13d141d7dd4, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 35
+      value: 26.18
       objectReference: {fileID: 0}
     - target: {fileID: 388383475857077387, guid: c8d67087318dfd44c8bca13d141d7dd4, type: 3}
       propertyPath: m_LocalPosition.y
@@ -9174,10 +9170,6 @@ PrefabInstance:
     - target: {fileID: 6447374328916875216, guid: c8d67087318dfd44c8bca13d141d7dd4, type: 3}
       propertyPath: m_Name
       value: IceTurretStandard
-      objectReference: {fileID: 0}
-    - target: {fileID: 6447374328916875216, guid: c8d67087318dfd44c8bca13d141d7dd4, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -12370,6 +12362,63 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 0.99999994}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1001 &1254767181
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 995687191561573463, guid: 77198472823243d43b375c93516634d2, type: 3}
+      propertyPath: m_Name
+      value: WaterMissileLauncher
+      objectReference: {fileID: 0}
+    - target: {fileID: 3970943871751219891, guid: 77198472823243d43b375c93516634d2, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 41.64
+      objectReference: {fileID: 0}
+    - target: {fileID: 3970943871751219891, guid: 77198472823243d43b375c93516634d2, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.57
+      objectReference: {fileID: 0}
+    - target: {fileID: 3970943871751219891, guid: 77198472823243d43b375c93516634d2, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -10.17
+      objectReference: {fileID: 0}
+    - target: {fileID: 3970943871751219891, guid: 77198472823243d43b375c93516634d2, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3970943871751219891, guid: 77198472823243d43b375c93516634d2, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3970943871751219891, guid: 77198472823243d43b375c93516634d2, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3970943871751219891, guid: 77198472823243d43b375c93516634d2, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3970943871751219891, guid: 77198472823243d43b375c93516634d2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3970943871751219891, guid: 77198472823243d43b375c93516634d2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3970943871751219891, guid: 77198472823243d43b375c93516634d2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 77198472823243d43b375c93516634d2, type: 3}
 --- !u!1001 &1263361678
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15644,10 +15693,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: FireMissileLauncher
       objectReference: {fileID: 0}
-    - target: {fileID: 2676650473354791636, guid: a3d2de68a72731542991acaad30da63d, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -17670,6 +17715,63 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7090637333116315144, guid: 160bfd850312e574faf3f3476bd6b8d0, type: 3}
   m_PrefabInstance: {fileID: 1875081889}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1880088061
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2857639620207705169, guid: ef896e07c82e5274e993c36eb285e8e3, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 44.37
+      objectReference: {fileID: 0}
+    - target: {fileID: 2857639620207705169, guid: ef896e07c82e5274e993c36eb285e8e3, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.57
+      objectReference: {fileID: 0}
+    - target: {fileID: 2857639620207705169, guid: ef896e07c82e5274e993c36eb285e8e3, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -10.26
+      objectReference: {fileID: 0}
+    - target: {fileID: 2857639620207705169, guid: ef896e07c82e5274e993c36eb285e8e3, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2857639620207705169, guid: ef896e07c82e5274e993c36eb285e8e3, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2857639620207705169, guid: ef896e07c82e5274e993c36eb285e8e3, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2857639620207705169, guid: ef896e07c82e5274e993c36eb285e8e3, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2857639620207705169, guid: ef896e07c82e5274e993c36eb285e8e3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2857639620207705169, guid: ef896e07c82e5274e993c36eb285e8e3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2857639620207705169, guid: ef896e07c82e5274e993c36eb285e8e3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8000848431372781601, guid: ef896e07c82e5274e993c36eb285e8e3, type: 3}
+      propertyPath: m_Name
+      value: IceMissileLauncher
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: ef896e07c82e5274e993c36eb285e8e3, type: 3}
 --- !u!1001 &1882860767
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -19926,10 +20028,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: FireTurretStandard
       objectReference: {fileID: 0}
-    - target: {fileID: 506513430382282075, guid: 852f614bbe80f524aaabd29c70f0e06e, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 7254308865729301593, guid: 852f614bbe80f524aaabd29c70f0e06e, type: 3}
       propertyPath: m_LocalPosition.x
       value: 35
@@ -19996,3 +20094,5 @@ SceneRoots:
   - {fileID: 1628710160}
   - {fileID: 689392388}
   - {fileID: 820751569}
+  - {fileID: 1254767181}
+  - {fileID: 1880088061}
