@@ -7,6 +7,9 @@ using UnityEngine.UI;
 
 public class Enemyv2 : MonoBehaviour
 {
+    [Header("Elemental Affinity")]
+    public ElementType elementType = ElementType.Normal;
+
     // ───── EXISTING FIELDS ──────────────────────────────────────────────────
     public float startSpeed = 10f;
     [HideInInspector] public float speed;

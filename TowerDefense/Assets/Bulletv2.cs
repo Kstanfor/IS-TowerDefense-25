@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-
 using UnityEngine;
 
 public class Bulletv2 : MonoBehaviour
@@ -78,14 +77,18 @@ public class Bulletv2 : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, explosionRadius);
     }
 
-    // ───── MODIFIED METHOD ─────────────────────────────────────────────────
+   
     void Damage(Transform enemy)
     {
         Enemyv2 e = enemy.GetComponent<Enemyv2>();
         if (e == null) return;
 
         // 1) Instant hit damage (unchanged)
-        e.TakeDamage(damage);
+        //e.TakeDamage(damage);
+        float multiplier = ElementalEffect.GetMultiplier(element, e.elementType);
+        float totalDamage = damage * multiplier;
+        Debug.Log($"[Bullet] {element}→{e.elementType}: ×{multiplier} → dmg={totalDamage}");
+        e.TakeDamage(totalDamage);
 
         // 2) NEW: apply status effect based on element
         switch (element)
