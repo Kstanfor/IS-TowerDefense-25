@@ -10778,6 +10778,16 @@ MonoBehaviour:
       count: 1
     - enemy: {fileID: 7929051170046490143, guid: 9e5aeb691cef2e243b6553bf4f6d6956, type: 3}
       count: 1
+  - spawnRate: 0.25
+    enemies:
+    - enemy: {fileID: 7929051170046490143, guid: 733f5cc1e028466469c9e358192b1192, type: 3}
+      count: 1
+    - enemy: {fileID: 7929051170046490143, guid: e1893efc18c79144bb383428c5348884, type: 3}
+      count: 1
+    - enemy: {fileID: 7929051170046490143, guid: bf7b9231159a1c3449ab82465105cee2, type: 3}
+      count: 1
+    - enemy: {fileID: 7929051170046490143, guid: 9e5aeb691cef2e243b6553bf4f6d6956, type: 3}
+      count: 1
   spawnPoint: {fileID: 297776289}
   betweenWaves: 5
   waveCountdownText: {fileID: 729505257}
