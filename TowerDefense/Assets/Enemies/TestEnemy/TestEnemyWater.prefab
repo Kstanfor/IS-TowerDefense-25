@@ -319,7 +319,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 79fb5bea5c658b34cb421bebe4ffa751, type: 2}
+  - {fileID: 2100000, guid: b3a666ee6c21f3343b0a14521afb9eea, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -374,9 +374,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c81a6c47660058743b83af77bca73646, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startSpeed: 10
+  startSpeed: 15
   speed: 10
-  startHealth: 100
+  startHealth: 125
   valueOfEnemy: 50
   deathEffect: {fileID: 2578218239889877152, guid: eabb11cd09cf4544599e535cc5377fc2, type: 3}
   healthBar: {fileID: 2262056437716400417}
