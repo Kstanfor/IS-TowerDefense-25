@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using System;
 
 
 
@@ -45,8 +46,11 @@ public class WaveSpawner : MonoBehaviour
         waveCountdownText.text = string.Format("{0:00.00}", countDown);
     }
 
+    public event Action<int> OnWaveStart;
+
     IEnumerator SpawnWave ()
     {
+        OnWaveStart?.Invoke(waveIndex);
         PlayerStats.Rounds++;
 
         Wave wave = waves[waveIndex];
