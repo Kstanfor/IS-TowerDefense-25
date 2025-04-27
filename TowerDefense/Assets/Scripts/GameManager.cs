@@ -4,9 +4,23 @@ using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine;
 
+    //version stuff
+    public enum UIMode
+    {
+        PlanningAndPreview,  // show both panels
+        PreviewOnly,         // skip planning, show preview
+        PlanningOnly,        // show planning, skip preview
+        None                 // skip both
+    }
 
 public class GameManager : MonoBehaviour
 {
+
+    // somewhere in the class, expose it in the inspector:
+    public UIMode uiMode = UIMode.PlanningAndPreview;
+
+
+    // gameover stuff
     public static bool GameIsOver;
 
     public GameObject gameOverUI;

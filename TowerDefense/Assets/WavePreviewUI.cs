@@ -14,6 +14,16 @@ public class WavePreviewUI : MonoBehaviour
 
     void Start()
     {
+        bool showPreview = GameManager.instance.uiMode == UIMode.PlanningAndPreview
+                        || GameManager.instance.uiMode == UIMode.PreviewOnly;
+
+        if (!showPreview)
+        {
+            // disable the entire preview panel
+            gameObject.SetActive(false);
+            return;
+        }
+
         // 1) Show total distinct unit types at level start
         totalUnitTypesText.text = $"Total Unit Types: {CalculateDistinctTypes()}";
 

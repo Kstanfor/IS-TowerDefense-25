@@ -17,6 +17,18 @@ public class PlanningPanelController : MonoBehaviour
 
     void Start()
     {
+        bool showPlanning = GameManager.instance.uiMode == UIMode.PlanningAndPreview
+                         || GameManager.instance.uiMode == UIMode.PlanningOnly;
+
+        // 1) If we shouldn’t plan, disable ourselves immediately:
+        if (!showPlanning)
+        {
+            // let spawning start right away
+            spawner.EndPlanning();
+            gameObject.SetActive(false);
+            return;
+        }
+
         // 1) Pause spawning
         spawner.isPlanning = true;
 
