@@ -4,11 +4,26 @@ using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine;
 
+
 public class GameManager : MonoBehaviour
 {
     public static bool GameIsOver;
 
     public GameObject gameOverUI;
+
+    // ─── NEW: store the mTurk Worker ID ─────────────────────────────
+    private string workerID = string.Empty;
+    public string WorkerID => workerID;            // read-only public accessor
+
+    /// <summary>
+    /// Sets the Worker ID (call once, from your login screen).
+    /// </summary>
+    public void SetWorkerID(string id)
+    {
+        workerID = id;
+        Debug.Log("[GameManager] Worker ID set to: " + workerID);
+    }
+    // ────────────────────────────────────────────────────────────────
 
     void Start()
     {
