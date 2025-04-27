@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
 using System;
@@ -7,6 +7,8 @@ using System;
 
 public class WaveSpawner : MonoBehaviour
 {
+    [HideInInspector] public bool isPlanning = true;
+
     public static int EnemiesAlive = 0;
 
     public Wave[] waves;
@@ -20,8 +22,20 @@ public class WaveSpawner : MonoBehaviour
 
     private int waveIndex = 0;
 
+    public void EndPlanning()
+    {
+        isPlanning = false;
+        countDown = 0f;      // force the first wave to start immediately
+    }
+
     void Update ()
     {
+        // ← block all spawning until planning is done
+        if (isPlanning) 
+        { 
+            return; 
+        }
+
         if (EnemiesAlive > 0)
         {
             return;
