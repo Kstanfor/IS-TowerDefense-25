@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine;
 
-    //version stuff
+
+
+//version stuff
     public enum UIMode
     {
         PlanningAndPreview,  // show both panels
@@ -121,4 +123,32 @@ public class GameManager : MonoBehaviour
             return;
         }
     }
+
+    public void UnloadCurrentLevelAndLoadLevel(string levelName)
+    {
+        StartCoroutine(UnloadCurrentLevelAndLoadLevelCoroutine(levelName));
+    }
+
+    public IEnumerator UnloadCurrentLevelAndLoadLevelCoroutine(string levelName)
+    {
+        //Time.timeScale = 1;
+
+        //Cursor.lockState = CursorLockMode.None;
+        //Cursor.visible = true;
+
+        AsyncOperation ao = SceneManager.UnloadSceneAsync(CurrentLevelName);
+        if (ao == null)
+        {
+            Debug.LogError("[GameManager] Unable to unload level " + CurrentLevelName);
+            yield return null;
+        }
+
+        while (!ao.isDone)
+        {
+            yield return new WaitForSeconds(0.1f);
+        }
+
+        LoadLevel(levelName);
+    }
+
 }

@@ -42,6 +42,6 @@ public class WorkerIDInput : MonoBehaviour
         GameManager.instance.SetWorkerID(id);
 
         // Load your next scene (replace "MainMenu" with whatever comes next)
-        SceneManager.LoadScene("MainMenu");
+        GameManager.instance.LoadLevel("Level01");
     }
 }
