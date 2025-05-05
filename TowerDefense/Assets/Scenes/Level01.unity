@@ -7599,8 +7599,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -350.258, y: 126.35}
-  m_SizeDelta: {x: -700.516, y: 252.7}
+  m_AnchoredPosition: {x: -303.82996, y: 126.35}
+  m_SizeDelta: {x: -607.66, y: 252.7}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &686503936
 MonoBehaviour:
@@ -7657,11 +7657,41 @@ MonoBehaviour:
     cost: 100
     upgradedPrefab: {fileID: 174700, guid: 93251d1750fcb344fa3600970be1f52f, type: 3}
     upgradeCost: 100
+  fireTurretStandard:
+    prefab: {fileID: 506513430382282075, guid: 852f614bbe80f524aaabd29c70f0e06e, type: 3}
+    cost: 100
+    upgradedPrefab: {fileID: 0}
+    upgradeCost: 0
+  iceTurretStandard:
+    prefab: {fileID: 6447374328916875216, guid: c8d67087318dfd44c8bca13d141d7dd4, type: 3}
+    cost: 100
+    upgradedPrefab: {fileID: 0}
+    upgradeCost: 0
+  waterTurretStandard:
+    prefab: {fileID: 4320731369915635287, guid: 7867551aa7d5bd34d95de626e7c6e790, type: 3}
+    cost: 100
+    upgradedPrefab: {fileID: 0}
+    upgradeCost: 0
   missleLauncher:
     prefab: {fileID: 4910576858388971749, guid: 66cc44ab3cebb4846b292e1b7c98c21b, type: 3}
     cost: 200
     upgradedPrefab: {fileID: 4910576858388971749, guid: 804b498309565d64aa4e03ad226202c8, type: 3}
     upgradeCost: 150
+  fireMissleLauncher:
+    prefab: {fileID: 2676650473354791636, guid: a3d2de68a72731542991acaad30da63d, type: 3}
+    cost: 200
+    upgradedPrefab: {fileID: 0}
+    upgradeCost: 0
+  iceMissleLauncher:
+    prefab: {fileID: 8000848431372781601, guid: ef896e07c82e5274e993c36eb285e8e3, type: 3}
+    cost: 200
+    upgradedPrefab: {fileID: 0}
+    upgradeCost: 0
+  waterMissleLauncher:
+    prefab: {fileID: 995687191561573463, guid: 77198472823243d43b375c93516634d2, type: 3}
+    cost: 200
+    upgradedPrefab: {fileID: 0}
+    upgradeCost: 0
   laserBeamer:
     prefab: {fileID: 8245521801281665307, guid: 02d89c31b89afa441980b436116e7e60, type: 3}
     cost: 300
