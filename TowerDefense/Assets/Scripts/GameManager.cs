@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 using UnityEngine.SceneManagement;
 using UnityEngine;
+using System.ComponentModel.Design;
 
 
 
@@ -18,6 +19,7 @@ public enum UIMode
 
 public class GameManager : MonoBehaviour
 {
+    private WaveSpawner waveSpawner;
 
     // somewhere in the class, expose it in the inspector:
     public UIMode uiMode = UIMode.PlanningAndPreview;
@@ -64,6 +66,8 @@ public class GameManager : MonoBehaviour
         elapsedTime = 0f;
         afkTimer = 0f;
         levelsCompleted = 0;
+
+        waveSpawner?.EndPlanning();
     }
 
     void Update()
@@ -121,8 +125,11 @@ public class GameManager : MonoBehaviour
     public string CurrentLevelName = string.Empty;
 
     public static GameManager instance { get; private set; }
+
     private void Awake()
     {
+        waveSpawner = FindObjectOfType<WaveSpawner>();
+
         if (instance == null)
         {
             instance = this;
@@ -136,9 +143,30 @@ public class GameManager : MonoBehaviour
                 "instance of singleton Game Manager");
         }
 
+        if (waveSpawner != null)
+        {
+            waveSpawner.OnAllWavesComplete += HandleLevelComplete;
+        }
+
         if (pauseMenu == null)
         {
             pauseMenu = FindObjectOfType<PauseMenu>();
+        }
+    }
+
+    private void HandleLevelComplete()
+    {
+        levelsCompleted++;
+
+        if (levelsCompleted < maxLevels)
+        {
+            // load next level here (or reload same scene, etc.)
+            // e.g.: LoadLevel("Level" + (levelsCompleted + 1));
+            waveSpawner.enabled = true;
+            waveSpawner.EndPlanning();
+        } else
+        {
+            TriggerEndGame();
         }
     }
 

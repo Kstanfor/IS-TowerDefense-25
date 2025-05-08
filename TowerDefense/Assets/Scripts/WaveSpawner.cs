@@ -30,6 +30,7 @@ public class WaveSpawner : MonoBehaviour
     public Text waveCountdownText;
     
     public event Action<int> OnWaveStart;
+    public event Action OnAllWavesComplete;
 
     private int waveIndex = 0;
     private float countDown;
@@ -154,6 +155,7 @@ public class WaveSpawner : MonoBehaviour
         }
         else {
             this.enabled = false;
+            OnAllWavesComplete?.Invoke();
         }
         //  for (int i = 0; i < wave.enemyCount; i++)
         //  {
