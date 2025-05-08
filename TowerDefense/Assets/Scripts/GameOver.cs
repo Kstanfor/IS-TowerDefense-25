@@ -8,6 +8,17 @@ public class GameOver : MonoBehaviour
 
     void OnEnable ()
     {
+        int done = GameManager.instance.levelsCompleted;
+        int goal = GameManager.instance.maxLevels;
+
+        if (done >= goal)
+        {
+            roundsText.text = "Thank you for playing!";
+        }else
+        {
+            roundsText.text = $"{done}/{goal} levels completed";
+        }
+
         roundsText.text = PlayerStats.Rounds.ToString();
     }
 

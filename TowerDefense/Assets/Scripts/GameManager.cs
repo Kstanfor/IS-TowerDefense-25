@@ -6,8 +6,9 @@ using UnityEngine;
 
 
 
+
 //version stuff
-    public enum UIMode
+public enum UIMode
     {
         PlanningAndPreview,  // show both panels
         PreviewOnly,         // skip planning, show preview
@@ -21,9 +22,23 @@ public class GameManager : MonoBehaviour
     // somewhere in the class, expose it in the inspector:
     public UIMode uiMode = UIMode.PlanningAndPreview;
 
+    [Header("End-Game Settings")]
+    [Tooltip("How many levels to play before forcing end")]
+    public int maxLevels = 5;
+    [Tooltip("How many seconds to play before forcing end (30 min = 1800 s)")]
+    public float maxTime = 1800f;
+
+    [Header("AFK Pause Settings")]
+    [Tooltip("Seconds of no input before auto-pause")]
+    public float afkTimeLimit = 15f;
+    public PauseMenu pauseMenu;    // assign in inspector or auto-find
+
+    private float elapsedTime;
+    private float afkTimer;
+    public int levelsCompleted { get; private set; }
 
     // gameover stuff
-    public static bool GameIsOver;
+    public static bool GameIsOver { get; private set; }
 
     public GameObject gameOverUI;
 
@@ -41,9 +56,14 @@ public class GameManager : MonoBehaviour
     }
     // ────────────────────────────────────────────────────────────────
 
+
+
     void Start()
     {
         GameIsOver = false;
+        elapsedTime = 0f;
+        afkTimer = 0f;
+        levelsCompleted = 0;
     }
 
     void Update()
@@ -51,6 +71,24 @@ public class GameManager : MonoBehaviour
         if (GameIsOver)
         {
             return;
+        }
+
+        elapsedTime += Time.deltaTime;
+        afkTimer += Time.deltaTime;
+
+        if (Input.anyKeyDown)
+        {
+            afkTimer = 0f;
+        }
+
+        if (afkTimer >= afkTimeLimit && pauseMenu != null && !pauseMenu.ui.activeSelf)
+        {
+            pauseMenu.Toggle();
+        }
+
+        if (elapsedTime >= maxTime || levelsCompleted >= maxLevels)
+        {
+            TriggerEndGame();
         }
 
         if (Input.GetKeyDown("e"))
@@ -64,6 +102,13 @@ public class GameManager : MonoBehaviour
         } 
     }
 
+    private void TriggerEndGame()
+    {
+        GameIsOver = true;
+        Debug.Log("Game Over!");
+        gameOverUI.SetActive(true);
+    }
+
     void EndGame()
     {
         GameIsOver = true;
@@ -75,7 +120,7 @@ public class GameManager : MonoBehaviour
     //possible singleton stuff
     public string CurrentLevelName = string.Empty;
 
-    public static GameManager instance;
+    public static GameManager instance { get; private set; }
     private void Awake()
     {
         if (instance == null)
@@ -90,10 +135,17 @@ public class GameManager : MonoBehaviour
             Debug.LogError("Trying to instantiate a second" +
                 "instance of singleton Game Manager");
         }
+
+        if (pauseMenu == null)
+        {
+            pauseMenu = FindObjectOfType<PauseMenu>();
+        }
     }
 
     public void LoadLevel(string levelName)
     {
+        levelsCompleted++;
+
         Time.timeScale = 1f;
         AsyncOperation ao = SceneManager.LoadSceneAsync(levelName, LoadSceneMode.Additive);
         if (ao == null)
