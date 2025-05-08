@@ -2,6 +2,8 @@
 using System.Collections;
 using UnityEngine.UI;
 using System;
+using System.Collections.Generic;
+using System.Configuration;
 
 
 
@@ -20,6 +22,9 @@ public class WaveSpawner : MonoBehaviour
     [Header("Pre-Wave CountDown")]
     public float preWaveTime = 30f;
     public Button readyButton;
+
+    [Header("Randomizer")]
+    public bool randomizeEnemyOrder = false;
 
     [Header("UI References")]
     public Text waveCountdownText;
@@ -113,14 +118,32 @@ public class WaveSpawner : MonoBehaviour
 
         Wave wave = waves[waveIndex];
 
+        //Create spawn Queue
+        List<GameObject> spawnQueue = new List<GameObject>();
         foreach (var group in wave.enemies)
         {
             for (int i = 0; i < group.count; i++)
             {
-                Instantiate(group.enemy, spawnPoint.position, spawnPoint.rotation);
+                spawnQueue.Add(group.enemy);
+            }
+        }
+
+        if (randomizeEnemyOrder)
+        {
+            for(int i = spawnQueue.Count - 1; i >= 0; i--)
+            {
+                int j = UnityEngine.Random.Range(0, i + 1);
+                var tmp = spawnQueue[i];
+                spawnQueue[i] = spawnQueue[j];
+                spawnQueue[j] = tmp;
+            }
+        }
+
+        foreach (var enemyPrefab in spawnQueue)
+        {
+                Instantiate(enemyPrefab, spawnPoint.position, spawnPoint.rotation);
                 EnemiesAlive++;
                 yield return new WaitForSeconds(1f / wave.spawnRate);
-            }
         }
 
         waveIndex++;
