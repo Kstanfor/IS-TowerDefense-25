@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657785, g: 0.49641252, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657832, g: 0.49641335, b: 0.574819, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -10978,6 +10978,8 @@ MonoBehaviour:
   maxTime: 1800
   afkTimeLimit: 15
   pauseMenu: {fileID: 0}
+  levelNames:
+  - Level02
   gameOverUI: {fileID: 1375404314}
   CurrentLevelName: 
 --- !u!114 &1000533926
