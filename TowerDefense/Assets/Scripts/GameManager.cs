@@ -161,7 +161,7 @@ public class GameManager : MonoBehaviour
         if (levelsCompleted < maxLevels)
         {
             // load next level here (or reload same scene, etc.)
-            // e.g.: LoadLevel("Level" + (levelsCompleted + 1));
+            LoadLevel("Level0" + (levelsCompleted + 1));
             waveSpawner.enabled = true;
             waveSpawner.EndPlanning();
         } else
