@@ -47,6 +47,7 @@ public class GameManager : MonoBehaviour
     public float afkTimeLimit = 15f;
     public PauseMenu pauseMenu;    // assign in inspector or auto-find
 
+    public float RemainingTime => Mathf.Max(0f, maxTime - elapsedTime);
     private float elapsedTime;
     private float afkTimer;
     public int levelsCompleted { get; private set; }
