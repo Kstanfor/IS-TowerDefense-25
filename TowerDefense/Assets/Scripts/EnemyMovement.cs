@@ -1,6 +1,5 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
-
 using UnityEngine;
 
 [RequireComponent(typeof(Enemy))]
@@ -25,7 +24,7 @@ public class EnemyMovement : MonoBehaviour
             Debug.Log($"[EnemyMovement] current speed = {enemy.speed}");
 
         Vector3 direction = target.position - transform.position;
-        transform.Translate(direction.normalized * enemy.speed * Time.deltaTime, Space.World);
+        transform.Translate(direction.normalized * enemy.speed * GameManager.instance.DifficultyModifier * Time.deltaTime, Space.World);
 
         if (Vector3.Distance(transform.position, target.position) <= 0.2f)
         {
@@ -53,6 +52,13 @@ public class EnemyMovement : MonoBehaviour
     {
         PlayerStats.Lives--;
         WaveSpawner.EnemiesAlive--;
+
+        if (GameManager.instance != null)
+        {
+            Debug.Log("[EnemyMovement] EndPath() called → DecreaseDifficulty next");
+            GameManager.instance.DecreaseDifficulty();
+        }
+
         Destroy(gameObject);
     }
 }

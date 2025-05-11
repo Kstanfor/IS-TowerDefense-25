@@ -88,6 +88,13 @@ public class Enemyv2 : MonoBehaviour
         GameObject effect = Instantiate(deathEffect, transform.position, Quaternion.identity);
         PlayerStats.Money += valueOfEnemy;
         WaveSpawner.EnemiesAlive--;
+
+        if (GameManager.instance != null) 
+        {
+            Debug.Log("[Enemyv2] Die() called → IncreaseDifficulty next");
+            GameManager.instance.IncreaseDifficulty();
+        }
+
         Destroy(effect, 5f);
         Destroy(gameObject);
     }

@@ -8,6 +8,8 @@ using System.ComponentModel.Design;
 
 
 
+
+
 //version stuff
 public enum UIMode
     {
@@ -23,6 +25,16 @@ public class GameManager : MonoBehaviour
 
     // somewhere in the class, expose it in the inspector:
     public UIMode uiMode = UIMode.PlanningAndPreview;
+
+    [Header("Dynamic Difficulty Settings")]
+    [Tooltip("Current multiplier applied to all enemy speeds")]
+    public float difficultyModifier = 1f;
+    public float difficultyIncrease = 0.01f;
+    public float difficultyDecrease = 0.1f;
+    public float minDifficulty = 0.5f;
+    public float maxDifficulty = 2f;
+
+    public float DifficultyModifier => difficultyModifier;
 
     [Header("End-Game Settings")]
     [Tooltip("How many levels to play before forcing end")]
@@ -58,7 +70,19 @@ public class GameManager : MonoBehaviour
     }
     // ────────────────────────────────────────────────────────────────
 
+    public void IncreaseDifficulty()
+    {
+        Debug.Log("[GameManager] IncreaseDifficulty() entered");
+        difficultyModifier = Mathf.Clamp(difficultyModifier + difficultyIncrease, minDifficulty, maxDifficulty);
+        Debug.Log($"[GameManager] Difficulty ↑ to {difficultyModifier:F2}");
+    }
 
+    public void DecreaseDifficulty()
+    {
+        Debug.Log("[GameManager] DecreaseDifficulty() entered");
+        difficultyModifier = Mathf.Clamp(difficultyModifier - difficultyIncrease, minDifficulty, maxDifficulty);
+        Debug.Log($"[GameManager] Difficulty ↓ to {difficultyModifier:F2}");
+    }
 
     void Start()
     {
@@ -124,7 +148,7 @@ public class GameManager : MonoBehaviour
     //possible singleton stuff
     public string CurrentLevelName = string.Empty;
 
-    public static GameManager instance { get; private set; }
+    public static GameManager instance; //{ get; private set; }
 
     private void Awake()
     {
@@ -142,6 +166,7 @@ public class GameManager : MonoBehaviour
             Debug.LogError("Trying to instantiate a second" +
                 "instance of singleton Game Manager");
         }
+        Debug.Log($"[GameManager] Awake: instance set to {instance.name}");
 
         if (waveSpawner != null)
         {
@@ -230,5 +255,7 @@ public class GameManager : MonoBehaviour
 
         LoadLevel(levelName);
     }
+
+    
 
 }
