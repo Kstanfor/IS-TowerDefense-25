@@ -9,9 +9,11 @@ public class WorkerIDInput : MonoBehaviour
     [Header("UI References")]
     [SerializeField] private InputField workerIDInputField;  // drag your InputField here
     [SerializeField] private Button submitButton;            // drag your Submit Button here
+    
 
     private void Start()
     {
+
         // Ensure we have a GameManager instance
         if (GameManager.instance == null)
         {
@@ -42,6 +44,6 @@ public class WorkerIDInput : MonoBehaviour
         GameManager.instance.SetWorkerID(id);
 
         // Load your next scene (replace "MainMenu" with whatever comes next)
-        GameManager.instance.LoadLevel("Level01");
+        GameManager.instance.LoadLevelOne();
     }
 }

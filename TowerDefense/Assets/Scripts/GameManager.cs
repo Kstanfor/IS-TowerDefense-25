@@ -10,6 +10,7 @@ using System.ComponentModel.Design;
 
 
 
+
 //version stuff
 public enum UIMode
     {
@@ -60,6 +61,8 @@ public class GameManager : MonoBehaviour
     // ─── NEW: store the mTurk Worker ID ─────────────────────────────
     private string workerID = string.Empty;
     public string WorkerID => workerID;            // read-only public accessor
+
+    public GameObject workerIDCanvas; // Reference to the canvas
 
     /// <summary>
     /// Sets the Worker ID (call once, from your login screen).
@@ -257,6 +260,19 @@ public class GameManager : MonoBehaviour
         LoadLevel(levelName);
     }
 
+    public void LoadLevelOne()
+    {
+        //disable the panel
+        if (workerIDCanvas != null)
+        {
+            workerIDCanvas.SetActive(false);
+        }
+        else { Debug.LogError("Canvas wont Disable"); }
+
+
+            // Load your next scene (replace "MainMenu" with whatever comes next)
+            GameManager.instance.LoadLevel("Level01");
+    }
     
 
 }
