@@ -5,13 +5,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine;
 using System.ComponentModel.Design;
 
-
-
-
-
-
-
-//version stuff
+//version stuff - Study Design
 public enum UIMode
     {
         PlanningAndPreview,  // show both panels
@@ -20,10 +14,39 @@ public enum UIMode
         None                 // skip both
     }
 
+
 public class GameManager : MonoBehaviour
 {
-    private WaveSpawner waveSpawner;
+    //SINGLETON & STATE
+    public static GameManager instance; //{ get; private set; }
+    //possible singleton stuff
+    public string CurrentLevelName = string.Empty;
+    // gameover stuff
+    public static bool GameIsOver { get; private set; }
+    public int levelsCompleted { get; private set; }
 
+
+    //REFERENCES
+    private WaveSpawner waveSpawner;
+    public GameObject workerIDCanvas; // Reference to the canvas
+    public GameObject gameOverUI;
+    public PauseMenu pauseMenu;    // assign in inspector or auto-find
+
+
+    // ─── NEW: store the mTurk Worker ID ─────────────────────────────
+    private string workerID = string.Empty;
+    public string WorkerID => workerID;            // read-only public accessor
+
+    /// <summary>
+    /// Sets the Worker ID (call once, from your login screen).
+    /// </summary>
+    public void SetWorkerID(string id)
+    {
+        workerID = id;
+        Debug.Log("[GameManager] Worker ID set to: " + workerID);
+    }
+
+    [Header("Study Design UI Mode")]
     // somewhere in the class, expose it in the inspector:
     public UIMode uiMode = UIMode.PlanningAndPreview;
 
@@ -34,45 +57,7 @@ public class GameManager : MonoBehaviour
     public float difficultyDecrease = 0.1f;
     public float minDifficulty = 0.5f;
     public float maxDifficulty = 2f;
-
     public float DifficultyModifier => difficultyModifier;
-
-    [Header("End-Game Settings")]
-    [Tooltip("How many levels to play before forcing end")]
-    public int maxLevels = 5;
-    [Tooltip("How many seconds to play before forcing end (30 min = 1800 s)")]
-    public float maxTime = 1800f;
-
-    [Header("AFK Pause Settings")]
-    [Tooltip("Seconds of no input before auto-pause")]
-    public float afkTimeLimit = 15f;
-    public PauseMenu pauseMenu;    // assign in inspector or auto-find
-
-    public float RemainingTime => Mathf.Max(0f, maxTime - elapsedTime);
-    private float elapsedTime;
-    private float afkTimer;
-    public int levelsCompleted { get; private set; }
-
-    // gameover stuff
-    public static bool GameIsOver { get; private set; }
-
-    public GameObject gameOverUI;
-
-    // ─── NEW: store the mTurk Worker ID ─────────────────────────────
-    private string workerID = string.Empty;
-    public string WorkerID => workerID;            // read-only public accessor
-
-    public GameObject workerIDCanvas; // Reference to the canvas
-
-    /// <summary>
-    /// Sets the Worker ID (call once, from your login screen).
-    /// </summary>
-    public void SetWorkerID(string id)
-    {
-        workerID = id;
-        Debug.Log("[GameManager] Worker ID set to: " + workerID);
-    }
-    // ────────────────────────────────────────────────────────────────
 
     public void IncreaseDifficulty()
     {
@@ -86,6 +71,50 @@ public class GameManager : MonoBehaviour
         Debug.Log("[GameManager] DecreaseDifficulty() entered");
         difficultyModifier = Mathf.Clamp(difficultyModifier - difficultyIncrease, minDifficulty, maxDifficulty);
         Debug.Log($"[GameManager] Difficulty ↓ to {difficultyModifier:F2}");
+    }
+
+    [Header("End-Game Settings")]
+    [Tooltip("How many levels to play before forcing end")]
+    public int maxLevels = 5;
+    [Tooltip("How many seconds to play before forcing end (30 min = 1800 s)")]
+    public float maxTime = 1800f;
+    private float elapsedTime;
+
+    [Header("AFK Pause Settings")]
+    [Tooltip("Seconds of no input before auto-pause")]
+    public float afkTimeLimit = 15f;
+    private float afkTimer;
+
+    public float RemainingTime => Mathf.Max(0f, maxTime - elapsedTime);
+
+    // ────────────────────────────────────────────────────────────────
+    private void Awake()
+    {
+        waveSpawner = FindObjectOfType<WaveSpawner>();
+
+        if (instance == null)
+        {
+            instance = this;
+            //make sure this game manager persists across scenes
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+            Debug.LogError("Trying to instantiate a second" +
+                "instance of singleton Game Manager");
+        }
+        Debug.Log($"[GameManager] Awake: instance set to {instance.name}");
+
+        if (waveSpawner != null)
+        {
+            waveSpawner.OnAllWavesComplete += HandleLevelComplete;
+        }
+
+        if (pauseMenu == null)
+        {
+            pauseMenu = FindObjectOfType<PauseMenu>();
+        }
     }
 
     void Start()
@@ -149,40 +178,6 @@ public class GameManager : MonoBehaviour
         gameOverUI.SetActive(true);
     }
 
-    //possible singleton stuff
-    public string CurrentLevelName = string.Empty;
-
-    public static GameManager instance; //{ get; private set; }
-
-    private void Awake()
-    {
-        waveSpawner = FindObjectOfType<WaveSpawner>();
-
-        if (instance == null)
-        {
-            instance = this;
-            //make sure this game manager persists across scenes
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-            Debug.LogError("Trying to instantiate a second" +
-                "instance of singleton Game Manager");
-        }
-        Debug.Log($"[GameManager] Awake: instance set to {instance.name}");
-
-        if (waveSpawner != null)
-        {
-            waveSpawner.OnAllWavesComplete += HandleLevelComplete;
-        }
-
-        if (pauseMenu == null)
-        {
-            pauseMenu = FindObjectOfType<PauseMenu>();
-        }
-    }
-
     private void HandleLevelComplete()
     {
         levelsCompleted++;
@@ -201,7 +196,7 @@ public class GameManager : MonoBehaviour
 
     public void LoadLevel(string levelName)
     {
-        levelsCompleted++;
+        //levelsCompleted++;
 
         Time.timeScale = 1f;
         AsyncOperation ao = SceneManager.LoadSceneAsync(levelName, LoadSceneMode.Additive);
@@ -276,3 +271,8 @@ public class GameManager : MonoBehaviour
     
 
 }
+
+
+
+
+

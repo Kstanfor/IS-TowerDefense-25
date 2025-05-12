@@ -4,6 +4,7 @@ using UnityEngine.UI;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using UnityEngine.SceneManagement;
 
 
 
@@ -111,7 +112,6 @@ public class WaveSpawner : MonoBehaviour
         // waveCountdownText.text = string.Format("{0:00.00}", countDown);
     }
 
-
     IEnumerator SpawnWave ()
     {
         OnWaveStart?.Invoke(waveIndex);
@@ -156,6 +156,12 @@ public class WaveSpawner : MonoBehaviour
         else {
             this.enabled = false;
             OnAllWavesComplete?.Invoke();
+
+            //int currentIndex = GetActiveScene();
+            //int nextIndex = currentIndex + 1;
+
+            //GameManager.instance.LoadLevel(nextIndex);
+            //GameManager.instance.UnloadLevel(currentIndex);
         }
         //  for (int i = 0; i < wave.enemyCount; i++)
         //  {

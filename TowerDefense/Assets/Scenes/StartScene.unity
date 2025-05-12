@@ -528,6 +528,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 402b2c8dcd02d864ba1714c8e4bc7cef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CurrentLevelName: 
+  workerIDCanvas: {fileID: 2039157850}
+  gameOverUI: {fileID: 0}
+  pauseMenu: {fileID: 0}
   uiMode: 0
   difficultyModifier: 1
   difficultyIncrease: 0.01
@@ -537,10 +541,6 @@ MonoBehaviour:
   maxLevels: 5
   maxTime: 1800
   afkTimeLimit: 15
-  pauseMenu: {fileID: 0}
-  gameOverUI: {fileID: 0}
-  workerIDCanvas: {fileID: 2039157850}
-  CurrentLevelName: 
 --- !u!114 &1300885944
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -992,8 +992,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71ef9061dca3c2d4ba7d8fe43c4b7de6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  workerIDInputField: {fileID: 0}
-  submitButton: {fileID: 0}
+  workerIDInputField: {fileID: 1096718202}
+  submitButton: {fileID: 2097418543}
 --- !u!1 &2097418541
 GameObject:
   m_ObjectHideFlags: 0
