@@ -509,6 +509,7 @@ GameObject:
   - component: {fileID: 1300885944}
   - component: {fileID: 1300885943}
   - component: {fileID: 1300885948}
+  - component: {fileID: 1300885949}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -585,6 +586,26 @@ MonoBehaviour:
   buildEffect: {fileID: 5345924584196425549, guid: 16a8a1458c81c804e97eb2c9717e1e39, type: 3}
   sellEffect: {fileID: 6582111388110605838, guid: 14addcdfe06d11f4f9b8e581906128f9, type: 3}
   nodeUI: {fileID: 6076837988867885836, guid: b9b66f315b3bab34f850be76957ca0a1, type: 3}
+--- !u!114 &1300885949
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1300885942}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4437ab684277c1d438636259d0bd8afb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isPlanning: 1
+  waves: []
+  spawnPoint: {fileID: 2546547486334145661, guid: ad49a53ee76d558489f409aaf515e269, type: 3}
+  betweenWaves: 5
+  preWaveTime: 30
+  readyButton: {fileID: 7677493472399007528, guid: 8dd1611ed1ef5fa4cbcddc31f423078c, type: 3}
+  randomizeEnemyOrder: 1
+  waveCountdownText: {fileID: 4594332125100904610, guid: 1f59cb3327e02ba46b9d67225347e5d2, type: 3}
 --- !u!1 &1517338950
 GameObject:
   m_ObjectHideFlags: 0

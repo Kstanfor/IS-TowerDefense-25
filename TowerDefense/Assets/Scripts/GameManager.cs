@@ -90,6 +90,7 @@ public class GameManager : MonoBehaviour
     // ────────────────────────────────────────────────────────────────
     private void Awake()
     {
+        Debug.Log("[GameManager] Awake CALLED. Attempting to find WaveSpawner."); // <-- ADD THIS LINE
         waveSpawner = FindObjectOfType<WaveSpawner>();
 
         if (instance == null)
@@ -108,7 +109,12 @@ public class GameManager : MonoBehaviour
 
         if (waveSpawner != null)
         {
+            Debug.Log($"[GameManager] Found WaveSpawner: {waveSpawner.gameObject.name} in scene {waveSpawner.gameObject.scene.name}. Subscribing to OnAllWavesComplete."); // <-- ADD THIS LINE
             waveSpawner.OnAllWavesComplete += HandleLevelComplete;
+        }
+        else 
+        {
+            Debug.LogError("[GameManager] Awake: Did NOT find WaveSpawner. Level transitions will LIKELY FAIL."); // <-- ADD THIS LINE
         }
 
         if (pauseMenu == null)
@@ -180,16 +186,22 @@ public class GameManager : MonoBehaviour
 
     private void HandleLevelComplete()
     {
+        Debug.Log("GameManager: HandleLevelComplete CALLED."); // <-- ADD THIS LINE
         levelsCompleted++;
+        Debug.Log($"GameManager: levelsCompleted is now {levelsCompleted}. maxLevels is {maxLevels}."); // <-- ADD THIS LINE
 
         if (levelsCompleted < maxLevels)
         {
             // load next level here (or reload same scene, etc.)
-            LoadLevel("Level0" + (levelsCompleted + 1));
-            waveSpawner.enabled = true;
-            waveSpawner.EndPlanning();
+            string nextLevelName = "Level0" + (levelsCompleted + 1);
+            Debug.Log($"GameManager: Attempting to load next level: {nextLevelName}"); // <-- ADD THIS LINE
+            LoadLevel(nextLevelName);
+
+            //waveSpawner.enabled = true;
+            //waveSpawner.EndPlanning();
         } else
         {
+            Debug.Log("GameManager: Max levels reached or exceeded. Triggering End Game."); // <-- ADD THIS LINE
             TriggerEndGame();
         }
     }

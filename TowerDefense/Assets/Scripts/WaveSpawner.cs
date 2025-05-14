@@ -8,6 +8,7 @@ using UnityEngine.SceneManagement;
 
 
 
+
 public class WaveSpawner : MonoBehaviour
 {
     [HideInInspector] public bool isPlanning = true;
@@ -154,6 +155,7 @@ public class WaveSpawner : MonoBehaviour
             BeginPreWave();
         }
         else {
+            Debug.Log("WaveSpawner: All waves processed! Firing OnAllWavesComplete. Current EnemiesAlive: " + EnemiesAlive); // <-- ADD THIS LINE
             this.enabled = false;
             OnAllWavesComplete?.Invoke();
 
