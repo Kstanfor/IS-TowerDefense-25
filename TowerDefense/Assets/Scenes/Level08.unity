@@ -9977,7 +9977,7 @@ MonoBehaviour:
   betweenWaves: 5
   preWaveTime: 30
   readyButton: {fileID: 2037802187}
-  randomizeEnemyOrder: 0
+  randomizeEnemyOrder: 1
   waveCountdownText: {fileID: 729505257}
 --- !u!4 &1000533922
 Transform:

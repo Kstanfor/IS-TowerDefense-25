@@ -2917,6 +2917,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 8524970178290408099, guid: 8dd1611ed1ef5fa4cbcddc31f423078c, type: 3}
   m_PrefabInstance: {fileID: 220556461}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &220556463 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7677493472399007528, guid: 8dd1611ed1ef5fa4cbcddc31f423078c, type: 3}
+  m_PrefabInstance: {fileID: 220556461}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &220584887
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10096,9 +10107,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1000533922}
   - component: {fileID: 1000533921}
-  - component: {fileID: 1000533923}
   - component: {fileID: 1000533924}
-  - component: {fileID: 1000533925}
   - component: {fileID: 1000533926}
   m_Layer: 0
   m_Name: GameMaster
@@ -10134,8 +10143,8 @@ MonoBehaviour:
   spawnPoint: {fileID: 297776289}
   betweenWaves: 5
   preWaveTime: 30
-  readyButton: {fileID: 0}
-  randomizeEnemyOrder: 0
+  readyButton: {fileID: 220556463}
+  randomizeEnemyOrder: 1
   waveCountdownText: {fileID: 729505257}
 --- !u!4 &1000533922
 Transform:
@@ -10152,21 +10161,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1000533923
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1000533920}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 57370db6ff6bc1540b5eb9286fd8668b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  buildEffect: {fileID: 5345924584196425549, guid: 16a8a1458c81c804e97eb2c9717e1e39, type: 3}
-  sellEffect: {fileID: 6582111388110605838, guid: 14addcdfe06d11f4f9b8e581906128f9, type: 3}
-  nodeUI: {fileID: 733154638}
 --- !u!114 &1000533924
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10181,31 +10175,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startMoney: 500
   startLives: 10
---- !u!114 &1000533925
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1000533920}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 402b2c8dcd02d864ba1714c8e4bc7cef, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CurrentLevelName: 
-  workerIDCanvas: {fileID: 0}
-  gameOverUI: {fileID: 1375404314}
-  pauseMenu: {fileID: 0}
-  uiMode: 0
-  difficultyModifier: 1
-  difficultyIncrease: 0.01
-  difficultyDecrease: 0.1
-  minDifficulty: 0.5
-  maxDifficulty: 2
-  maxLevels: 5
-  maxTime: 1800
-  afkTimeLimit: 15
 --- !u!114 &1000533926
 MonoBehaviour:
   m_ObjectHideFlags: 0
