@@ -156,8 +156,9 @@ public class WaveSpawner : MonoBehaviour
         }
         else {
             Debug.Log("WaveSpawner: All waves processed! Firing OnAllWavesComplete. Current EnemiesAlive: " + EnemiesAlive); // <-- ADD THIS LINE
-            this.enabled = false;
+            GameManager.instance.HandleLevelComplete();
             OnAllWavesComplete?.Invoke();
+            this.enabled = false;
 
             //int currentIndex = GetActiveScene();
             //int nextIndex = currentIndex + 1;

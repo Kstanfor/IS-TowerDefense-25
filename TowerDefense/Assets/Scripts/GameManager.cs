@@ -5,6 +5,9 @@ using UnityEngine.SceneManagement;
 using UnityEngine;
 using System.ComponentModel.Design;
 
+
+
+
 //version stuff - Study Design
 public enum UIMode
     {
@@ -98,6 +101,8 @@ public class GameManager : MonoBehaviour
             instance = this;
             //make sure this game manager persists across scenes
             DontDestroyOnLoad(gameObject);
+            SceneManager.sceneLoaded += OnSceneLoaded; // <-- KEY CHANGE: Subscribe here
+            Debug.Log($"[GameManager] Awake: Singleton instance created. Subscribed to SceneManager.sceneLoaded.");
         }
         else
         {
@@ -107,19 +112,77 @@ public class GameManager : MonoBehaviour
         }
         Debug.Log($"[GameManager] Awake: instance set to {instance.name}");
 
-        if (waveSpawner != null)
-        {
-            Debug.Log($"[GameManager] Found WaveSpawner: {waveSpawner.gameObject.name} in scene {waveSpawner.gameObject.scene.name}. Subscribing to OnAllWavesComplete."); // <-- ADD THIS LINE
-            waveSpawner.OnAllWavesComplete += HandleLevelComplete;
-        }
-        else 
-        {
-            Debug.LogError("[GameManager] Awake: Did NOT find WaveSpawner. Level transitions will LIKELY FAIL."); // <-- ADD THIS LINE
-        }
+       // if (waveSpawner != null)
+       // {
+        //    Debug.Log($"[GameManager] Found WaveSpawner: {waveSpawner.gameObject.name} in scene {waveSpawner.gameObject.scene.name}. Subscribing to OnAllWavesComplete."); // <-- ADD THIS LINE
+        //    waveSpawner.OnAllWavesComplete += HandleLevelComplete;
+       // }
+       // else 
+       // {
+        //    Debug.LogError("[GameManager] Awake: Did NOT find WaveSpawner. Level transitions will LIKELY FAIL."); // <-- ADD THIS LINE
+       // }
 
         if (pauseMenu == null)
         {
             pauseMenu = FindObjectOfType<PauseMenu>();
+        }
+    }
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        Debug.Log($"[GameManager] OnSceneLoaded: Scene '{scene.name}' loaded with mode '{mode}'.");
+        if (scene.name.StartsWith("Level0"))
+        {
+            WaveSpawner newWaveSpawner = FindObjectOfType<WaveSpawner>();
+
+            if (newWaveSpawner != null)
+            {
+                Debug.Log($"[GameManager] OnSceneLoaded: Found WaveSpawner '{newWaveSpawner.gameObject.name}' in scene '{scene.name}'.");
+
+                if (waveSpawner != null && waveSpawner != newWaveSpawner)
+                {
+                    Debug.Log($"[GameManager] OnSceneLoaded: Unsubscribing from old WaveSpawner '{waveSpawner.gameObject.name}'.");
+                    waveSpawner.OnAllWavesComplete -= HandleLevelComplete;
+                }
+
+                waveSpawner = newWaveSpawner;
+                waveSpawner.OnAllWavesComplete += HandleLevelComplete;
+                Debug.Log($"[GameManager] OnSceneLoaded: Subscribed to new WaveSpawner '{waveSpawner.gameObject.name}'.");
+
+                if (waveSpawner.isPlanning)
+                {
+                    Debug.Log($"[GameManager] OnSceneLoaded: WaveSpawner for '{scene.name}' is in planning. Calling EndPlanning().");
+                    waveSpawner.enabled = true; // Ensure it's active
+                    waveSpawner.EndPlanning();
+
+                }
+                else
+                {
+                    Debug.Log($"[GameManager] OnSceneLoaded: WaveSpawner for '{scene.name}' is NOT in planning. (isPlanning: {waveSpawner.isPlanning})");
+                }
+            }
+            else
+            {
+                Debug.LogError($"[GameManager] OnSceneLoaded: Did NOT find WaveSpawner in loaded game scene '{scene.name}'. Level transitions will FAIL.");
+                // If a previous waveSpawner existed, and this new level has none, clear the old subscription.
+                if (waveSpawner != null)
+                {
+                    waveSpawner.OnAllWavesComplete -= HandleLevelComplete;
+                    waveSpawner = null; // Clear the reference as it's no longer valid for the current scene context
+                }
+            }
+
+        }
+    }
+
+    private void OnDestroy()
+    {
+        // Always unsubscribe when GameManager is destroyed to prevent errors
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+        if (waveSpawner != null)
+        {
+            Debug.Log($"[GameManager] OnDestroy: Unsubscribing from WaveSpawner '{waveSpawner.gameObject.name}'.");
+            waveSpawner.OnAllWavesComplete -= HandleLevelComplete;
         }
     }
 
@@ -130,7 +193,7 @@ public class GameManager : MonoBehaviour
         afkTimer = 0f;
         levelsCompleted = 0;
 
-        waveSpawner?.EndPlanning();
+        //waveSpawner?.EndPlanning();
     }
 
     void Update()
@@ -148,22 +211,22 @@ public class GameManager : MonoBehaviour
             afkTimer = 0f;
         }
 
-        if (afkTimer >= afkTimeLimit && pauseMenu != null && !pauseMenu.ui.activeSelf)
+        if (afkTimer >= afkTimeLimit && pauseMenu != null && !pauseMenu.ui.activeSelf && !GameIsOver)
         {
             pauseMenu.Toggle();
         }
 
-        if (elapsedTime >= maxTime || levelsCompleted >= maxLevels)
+        if (elapsedTime >= maxTime || levelsCompleted >= maxLevels && !GameIsOver)
         {
             TriggerEndGame();
         }
 
-        if (Input.GetKeyDown("e"))
+        if (Input.GetKeyDown("e") && !GameIsOver)
         {
             EndGame();
         }
             
-       if(PlayerStats.Lives <= 0)
+       if(PlayerStats.Lives <= 0 && !GameIsOver)
         {
             EndGame();  
         } 
@@ -171,20 +234,21 @@ public class GameManager : MonoBehaviour
 
     private void TriggerEndGame()
     {
+        if (GameIsOver) return; // Prevent multiple calls
         GameIsOver = true;
-        Debug.Log("Game Over!");
+        Debug.Log("[GameManager] TriggerEndGame: GAME OVER!");
         gameOverUI.SetActive(true);
     }
 
     void EndGame()
     {
+        if (GameIsOver) return; // Prevent multiple calls
         GameIsOver = true;
-        Debug.Log("Game Over!");
-
+        Debug.Log("[GameManager] EndGame: GAME OVER!");
         gameOverUI.SetActive(true);
     }
 
-    private void HandleLevelComplete()
+    public void HandleLevelComplete()
     {
         Debug.Log("GameManager: HandleLevelComplete CALLED."); // <-- ADD THIS LINE
         levelsCompleted++;
@@ -217,17 +281,28 @@ public class GameManager : MonoBehaviour
             Debug.LogError("[GameManager] Unable to load level " + levelName);
             return;
         }
-        CurrentLevelName = levelName;
+       // CurrentLevelName = levelName;
     }
 
     public void UnloadLevel(string levelName)
     {
+        Debug.Log($"[GameManager] UnloadLevel: Unloading '{levelName}'.");
+        // Before unloading, if this level contains the active waveSpawner, unsubscribe
+        if (waveSpawner != null && waveSpawner.gameObject.scene.name == levelName)
+        {
+            Debug.Log($"[GameManager] UnloadLevel: Unsubscribing from WaveSpawner in '{levelName}' before unload.");
+            waveSpawner.OnAllWavesComplete -= HandleLevelComplete;
+            waveSpawner = null; // Clear the reference
+        }
+
         AsyncOperation ao = SceneManager.UnloadSceneAsync(levelName);
         if (ao == null)
         {
             Debug.LogError("[GameManager] Unable to unload level " + levelName);
             return;
         }
+
+        if (CurrentLevelName == levelName) CurrentLevelName = string.Empty; // Clear if it was the current
     }
 
     public void UnloadCurrentLevel()
@@ -245,26 +320,45 @@ public class GameManager : MonoBehaviour
         StartCoroutine(UnloadCurrentLevelAndLoadLevelCoroutine(levelName));
     }
 
-    public IEnumerator UnloadCurrentLevelAndLoadLevelCoroutine(string levelName)
+    public IEnumerator UnloadCurrentLevelAndLoadLevelCoroutine(string levelNameToLoad)
     {
-        //Time.timeScale = 1;
+        Time.timeScale = 1;
 
         //Cursor.lockState = CursorLockMode.None;
         //Cursor.visible = true;
 
-        AsyncOperation ao = SceneManager.UnloadSceneAsync(CurrentLevelName);
-        if (ao == null)
+        if (!string.IsNullOrEmpty(CurrentLevelName))
         {
-            Debug.LogError("[GameManager] Unable to unload level " + CurrentLevelName);
-            yield return null;
+            Debug.Log($"[GameManager] Coroutine: Unloading '{CurrentLevelName}'.");
+            // Unsubscribe before unload, similar to UnloadLevel method
+            if (waveSpawner != null && waveSpawner.gameObject.scene.name == CurrentLevelName)
+            {
+                Debug.Log($"[GameManager] Coroutine: Unsubscribing from WaveSpawner in '{CurrentLevelName}' before unload.");
+                waveSpawner.OnAllWavesComplete -= HandleLevelComplete;
+                waveSpawner = null;
+            }
+            AsyncOperation aoUnload = SceneManager.UnloadSceneAsync(CurrentLevelName);
+            if (aoUnload == null)
+            {
+                Debug.LogError($"[GameManager] Coroutine: Unable to begin unloading level '{CurrentLevelName}'.");
+            }
+            else
+            {
+                while (!aoUnload.isDone)
+                {
+                    yield return null; // Wait a frame
+                }
+                Debug.Log($"[GameManager] Coroutine: Finished unloading '{CurrentLevelName}'.");
+            }
+        }
+        else
+        {
+            Debug.LogWarning("[GameManager] Coroutine: CurrentLevelName is empty, nothing to unload.");
         }
 
-        while (!ao.isDone)
-        {
-            yield return new WaitForSeconds(0.1f);
-        }
+        CurrentLevelName = levelNameToLoad; // Set the name of the level we are about to load
 
-        LoadLevel(levelName);
+        LoadLevel(levelNameToLoad);
     }
 
     public void LoadLevelOne()
@@ -276,9 +370,11 @@ public class GameManager : MonoBehaviour
         }
         else { Debug.LogError("Canvas wont Disable"); }
 
+        Debug.Log("[GameManager] LoadLevelOne: Loading Level01.");
+        CurrentLevelName = "Level01"; // Set this so UnloadCurrentLevelAndLoadLevel works if called next
 
-            // Load your next scene (replace "MainMenu" with whatever comes next)
-            GameManager.instance.LoadLevel("Level01");
+        // Load your next scene (replace "MainMenu" with whatever comes next)
+        GameManager.instance.LoadLevel("Level01");
     }
     
 
