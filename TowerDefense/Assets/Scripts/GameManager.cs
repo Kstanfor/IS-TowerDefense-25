@@ -257,9 +257,9 @@ public class GameManager : MonoBehaviour
         if (levelsCompleted < maxLevels)
         {
             // load next level here (or reload same scene, etc.)
-            string nextLevelName = "Level0" + (levelsCompleted + 1);
-            Debug.Log($"GameManager: Attempting to load next level: {nextLevelName}"); // <-- ADD THIS LINE
-            LoadLevel(nextLevelName);
+            string next = "Level0" + (levelsCompleted + 1);
+            Debug.Log($"GameManager: Attempting to load next level: {next}"); // <-- ADD THIS LINE
+            UnloadCurrentLevelAndLoadLevel(next);
 
             //waveSpawner.enabled = true;
             //waveSpawner.EndPlanning();
