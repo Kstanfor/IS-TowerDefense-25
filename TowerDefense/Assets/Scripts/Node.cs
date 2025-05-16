@@ -2,6 +2,7 @@
 using UnityEngine.EventSystems;
 using UnityEngine;
 using System.Collections.Specialized;
+using UnityEngine.SceneManagement;
 
 
 
@@ -69,7 +70,10 @@ public class Node : MonoBehaviour
 
         PlayerStats.Money -= blueprint.cost;
 
-        GameObject _turret = (GameObject)Instantiate(blueprint.prefab, GetBuildPosition(), Quaternion.identity);
+        GameObject _turret = (GameObject)Instantiate(blueprint.prefab, GetBuildPosition(), Quaternion.identity); // added this.transform
+
+        _turret.transform.SetParent(this.transform, true);
+
         turret = _turret;
 
         turretBlueprint = blueprint;
@@ -94,7 +98,7 @@ public class Node : MonoBehaviour
         Destroy(turret);
 
         //Build New Turret
-        GameObject _turret = (GameObject)Instantiate(turretBlueprint.upgradedPrefab, GetBuildPosition(), Quaternion.identity);
+        GameObject _turret = Instantiate(turretBlueprint.upgradedPrefab, GetBuildPosition(), Quaternion.identity);  //added this.transform
         turret = _turret;
 
         GameObject effect = (GameObject)Instantiate(buildManager.buildEffect, GetBuildPosition(), Quaternion.identity);
@@ -109,7 +113,7 @@ public class Node : MonoBehaviour
     {
         PlayerStats.Money += turretBlueprint.GetSellAmount();
 
-        GameObject effect = (GameObject)Instantiate(buildManager.sellEffect, GetBuildPosition(), Quaternion.identity);
+        GameObject effect = Instantiate(buildManager.sellEffect, GetBuildPosition(), Quaternion.identity);
 
         Destroy(turret);
 
