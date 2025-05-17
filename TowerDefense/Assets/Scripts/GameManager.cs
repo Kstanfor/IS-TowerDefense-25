@@ -1,12 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-
 using UnityEngine.SceneManagement;
 using UnityEngine;
 using System.ComponentModel.Design;
-
-
-
 
 
 
@@ -188,12 +184,15 @@ public class GameManager : MonoBehaviour
 
             if (pauseMenu == null)
             {
+
                 Debug.LogError("[GameManager] Couldn’t find PauseMenu in the newly loaded level!");
 
             }
             else
             {
+                Debug.Log($"[GameManager.OnSceneLoaded] Found PauseMenu. Setting UI inactive. Current ui.activeSelf: {pauseMenu.ui.activeSelf}");
                 pauseMenu.ui.SetActive(false);
+                Debug.Log($"[GameManager.OnSceneLoaded] After SetActive(false), ui.activeSelf: {pauseMenu.ui.activeSelf}");
             }
 
             if (gameOverUI != null)
@@ -227,6 +226,7 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
+        Debug.Log($"[GameManager.Update] START - GameIsOver: {GameIsOver}, Time.timeScale: {Time.timeScale}");
         if (GameIsOver)
         {
             return;
@@ -235,6 +235,7 @@ public class GameManager : MonoBehaviour
         elapsedTime += Time.deltaTime;
         afkTimer += Time.deltaTime;
         Debug.Log($"[Timer] elapsed={elapsedTime:F1}s  afk={afkTimer:F1}s");
+        Debug.Log($"[GameManager.Update] Current Time.timeScale: {Time.timeScale}");
 
         if (Input.anyKeyDown || Input.GetMouseButtonDown(0))
         {
@@ -253,11 +254,13 @@ public class GameManager : MonoBehaviour
 
         if (Input.GetKeyDown("e") && !GameIsOver)
         {
+            Debug.LogWarning("[GameManager.Update] 'E' key pressed, calling EndGame()");
             EndGame();
         }
             
        if(PlayerStats.Lives <= 0 && !GameIsOver)
         {
+            Debug.LogWarning($"[GameManager.Update] PlayerStats.Lives is {PlayerStats.Lives}, calling EndGame()");
             EndGame();  
         } 
     }
@@ -274,7 +277,7 @@ public class GameManager : MonoBehaviour
     {
         if (GameIsOver) return; // Prevent multiple calls
         GameIsOver = true;
-        Debug.Log("[GameManager] EndGame: GAME OVER!");
+        Debug.LogWarning("[GameManager] EndGame: GAME OVER! - GameIsOver set to true.");
         gameOverUI.SetActive(true);
     }
 
@@ -305,6 +308,7 @@ public class GameManager : MonoBehaviour
         //levelsCompleted++;
 
         Time.timeScale = 1f;
+        Debug.Log($"[GameManager.LoadLevel] Time.timeScale SET TO 1f for level: {levelName}"); // Log change
         AsyncOperation ao = SceneManager.LoadSceneAsync(levelName, LoadSceneMode.Additive);
         if (ao == null)
         {
@@ -353,6 +357,7 @@ public class GameManager : MonoBehaviour
     public IEnumerator UnloadCurrentLevelAndLoadLevelCoroutine(string levelNameToLoad)
     {
         Time.timeScale = 1;
+        Debug.Log($"[GameManager.Coroutine] Time.timeScale SET TO 1 before loading: {levelNameToLoad}"); // Log change
 
         //Cursor.lockState = CursorLockMode.None;
         //Cursor.visible = true;

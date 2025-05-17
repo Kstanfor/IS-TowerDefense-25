@@ -3,6 +3,7 @@ using UnityEngine;
 using System.Globalization;
 using UnityEngine.UI;
 
+
 public class PauseMenu : MonoBehaviour
 {
     public GameObject ui;
@@ -44,6 +45,7 @@ public class PauseMenu : MonoBehaviour
     public void Toggle()
     {
         ui.SetActive(!ui.activeSelf);
+        Debug.Log($"[PauseMenu.Toggle] UI active: {ui.activeSelf}"); // Log UI state
 
         if (ui.activeSelf)
         {
@@ -52,10 +54,12 @@ public class PauseMenu : MonoBehaviour
                 UpdateTimerText();
             }
             Time.timeScale = 0f;
+            Debug.Log("[PauseMenu.Toggle] Time.timeScale SET TO 0f"); // Log change
         }
         else
         {
             Time.timeScale = 1f;
+            Debug.Log("[PauseMenu.Toggle] Time.timeScale SET TO 1f"); // Log change
         }
     }
 
