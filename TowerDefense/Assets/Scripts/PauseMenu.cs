@@ -26,10 +26,19 @@ public class PauseMenu : MonoBehaviour
 
     private void UpdateTimerText()
     {
-        float rem = GameManager.instance.RemainingTime;
-        int m = Mathf.FloorToInt(rem / 60f);
-        int s = Mathf.FloorToInt(rem % 60f);
-        timerText.text = string.Format("{0:00}:{1:00}", m, s);
+        var gm = GameManager.instance;
+        if (gm.RemainingTime <= 0f && gm.levelsCompleted < gm.maxLevels)
+        {
+            timerText.text = $"{gm.levelsCompleted}/{gm.maxLevels} levels completed";
+        }
+        else
+        {
+            float rem = GameManager.instance.RemainingTime;
+            int m = Mathf.FloorToInt(rem / 60f);
+            int s = Mathf.FloorToInt(rem % 60f);
+            timerText.text = string.Format("{0:00}:{1:00}", m, s);
+        }
+
     }
 
     public void Toggle()

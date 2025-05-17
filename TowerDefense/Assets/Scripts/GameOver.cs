@@ -19,7 +19,6 @@ public class GameOver : MonoBehaviour
             roundsText.text = $"{done}/{goal} levels completed";
         }
 
-        roundsText.text = PlayerStats.Rounds.ToString();
     }
 
     public void Retry()

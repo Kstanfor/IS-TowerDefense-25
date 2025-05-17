@@ -8,6 +8,8 @@ using System.ComponentModel.Design;
 
 
 
+
+
 //version stuff - Study Design
 public enum UIMode
     {
@@ -39,6 +41,8 @@ public class GameManager : MonoBehaviour
     // ─── NEW: store the mTurk Worker ID ─────────────────────────────
     private string workerID = string.Empty;
     public string WorkerID => workerID;            // read-only public accessor
+
+    
 
     /// <summary>
     /// Sets the Worker ID (call once, from your login screen).
@@ -83,6 +87,7 @@ public class GameManager : MonoBehaviour
     public float maxTime = 1800f;
     private float elapsedTime;
 
+
     [Header("AFK Pause Settings")]
     [Tooltip("Seconds of no input before auto-pause")]
     public float afkTimeLimit = 15f;
@@ -101,6 +106,12 @@ public class GameManager : MonoBehaviour
             instance = this;
             //make sure this game manager persists across scenes
             DontDestroyOnLoad(gameObject);
+
+            GameIsOver = false;
+            elapsedTime = 0f;
+            afkTimer = 0f;
+            levelsCompleted = 0;
+
             SceneManager.sceneLoaded += OnSceneLoaded; // <-- KEY CHANGE: Subscribe here
             Debug.Log($"[GameManager] Awake: Singleton instance created. Subscribed to SceneManager.sceneLoaded.");
         }
@@ -109,6 +120,7 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
             Debug.LogError("Trying to instantiate a second" +
                 "instance of singleton Game Manager");
+            return;
         }
         Debug.Log($"[GameManager] Awake: instance set to {instance.name}");
 
@@ -172,6 +184,27 @@ public class GameManager : MonoBehaviour
                 }
             }
 
+            pauseMenu = FindObjectOfType<PauseMenu>();
+
+            if (pauseMenu == null)
+            {
+                Debug.LogError("[GameManager] Couldn’t find PauseMenu in the newly loaded level!");
+
+            }
+            else
+            {
+                pauseMenu.ui.SetActive(false);
+            }
+
+            if (gameOverUI != null)
+            {
+                gameOverUI.SetActive(false);
+            }
+            else 
+            {
+                Debug.LogError("[GameManager] gameOverUI wasn’t wired in the inspector or found in scene!");
+            }
+
         }
     }
 
@@ -188,11 +221,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        GameIsOver = false;
-        elapsedTime = 0f;
-        afkTimer = 0f;
-        levelsCompleted = 0;
-
+        if (instance != this) return;
         //waveSpawner?.EndPlanning();
     }
 
@@ -205,8 +234,9 @@ public class GameManager : MonoBehaviour
 
         elapsedTime += Time.deltaTime;
         afkTimer += Time.deltaTime;
+        Debug.Log($"[Timer] elapsed={elapsedTime:F1}s  afk={afkTimer:F1}s");
 
-        if (Input.anyKeyDown)
+        if (Input.anyKeyDown || Input.GetMouseButtonDown(0))
         {
             afkTimer = 0f;
         }
@@ -216,7 +246,7 @@ public class GameManager : MonoBehaviour
             pauseMenu.Toggle();
         }
 
-        if (elapsedTime >= maxTime || levelsCompleted >= maxLevels && !GameIsOver)
+        if (elapsedTime >= maxTime && levelsCompleted >= maxLevels && !GameIsOver)
         {
             TriggerEndGame();
         }
