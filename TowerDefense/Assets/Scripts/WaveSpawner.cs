@@ -9,6 +9,8 @@ using UnityEngine.SceneManagement;
 
 
 
+
+
 public class WaveSpawner : MonoBehaviour
 {
     [HideInInspector] public bool isPlanning = true;
@@ -155,10 +157,12 @@ public class WaveSpawner : MonoBehaviour
             BeginPreWave();
         }
         else {
-            Debug.Log("WaveSpawner: All waves processed! Firing OnAllWavesComplete. Current EnemiesAlive: " + EnemiesAlive); // <-- ADD THIS LINE
-            GameManager.instance.HandleLevelComplete();
-            OnAllWavesComplete?.Invoke();
-            this.enabled = false;
+            // Debug.Log("WaveSpawner: All waves processed! Firing OnAllWavesComplete. Current EnemiesAlive: " + EnemiesAlive); // <-- ADD THIS LINE
+            // GameManager.instance.HandleLevelComplete();
+            // OnAllWavesComplete?.Invoke();
+            //this.enabled = false;
+            Debug.Log("WaveSpawner: All waves processed! Waiting for all enemies to die. EnemiesAlive = " + EnemiesAlive);
+            StartCoroutine(WaitForAllEnemiesToDie());
 
             //int currentIndex = GetActiveScene();
             //int nextIndex = currentIndex + 1;
@@ -166,6 +170,7 @@ public class WaveSpawner : MonoBehaviour
             //GameManager.instance.LoadLevel(nextIndex);
             //GameManager.instance.UnloadLevel(currentIndex);
         }
+      
         //  for (int i = 0; i < wave.enemyCount; i++)
         //  {
         //     SpawnEnemy(wave.enemyPrefab);
@@ -196,6 +201,22 @@ public class WaveSpawner : MonoBehaviour
         //      this.enabled = false;
         // }
         // }
+    }
+
+    /// <summary>
+    /// After the last wave spawns, wait until all enemies have been destroyed
+    /// before telling the GameManager to transition levels.
+    /// </summary>
+    private IEnumerator WaitForAllEnemiesToDie()
+    {
+        // loop every frame until no enemies remain
+        while (EnemiesAlive > 0)
+            yield return null;
+
+        Debug.Log("WaveSpawner: All enemies dead. Completing level.");
+        GameManager.instance.HandleLevelComplete();
+        OnAllWavesComplete?.Invoke();
+        this.enabled = false;
     }
 
     void SpawnEnemy (GameObject enemyPrefab)
