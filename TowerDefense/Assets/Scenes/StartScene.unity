@@ -643,6 +643,9 @@ MonoBehaviour:
   maxDifficulty: 2
   maxLevels: 10
   maxTime: 1800
+  minLevelsForTimerEndCondition: 5
+  totalUniqueLevels: 10
+  minTotalLevelsForLooping: 5
   afkTimeLimit: 15
 --- !u!114 &1300885944
 MonoBehaviour:

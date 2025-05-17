@@ -6,6 +6,7 @@ using System.ComponentModel.Design;
 
 
 
+
 //version stuff - Study Design
 public enum UIMode
     {
@@ -82,6 +83,16 @@ public class GameManager : MonoBehaviour
     [Tooltip("How many seconds to play before forcing end (30 min = 1800 s)")]
     public float maxTime = 1800f;
     private float elapsedTime;
+
+     [Header("New End-Game & Loop Settings")]
+    [Tooltip("Minimum total levels completed for the game to end when maxTime is reached.")]
+    public int minLevelsForTimerEndCondition = 5;
+
+    //[Tooltip("The total number of unique game levels available (e.g., if you have Level01 to Level05, this is 5). Set this accurately in the Inspector.")]
+    //public int totalUniqueLevels = 5; // EXAMPLE: Set this to how many actual unique level scenes you have
+
+    //[Tooltip("Minimum total levels that must be played to enable looping after all unique levels are complete.")]
+    //public int minTotalLevelsForLooping = 5;
 
 
     [Header("AFK Pause Settings")]
@@ -287,19 +298,22 @@ public class GameManager : MonoBehaviour
         levelsCompleted++;
         Debug.Log($"GameManager: levelsCompleted is now {levelsCompleted}. maxLevels is {maxLevels}."); // <-- ADD THIS LINE
 
-        if (levelsCompleted < maxLevels)
+        if (levelsCompleted >= maxLevels)
         {
-            // load next level here (or reload same scene, etc.)
-            string next = "Level0" + (levelsCompleted + 1);
-            Debug.Log($"GameManager: Attempting to load next level: {next}"); // <-- ADD THIS LINE
-            UnloadCurrentLevelAndLoadLevel(next);
+            // All unique levels (as defined by maxLevels) have been completed.
+            Debug.Log($"[GameManager.HandleLevelComplete] All {maxLevels} unique levels completed. Triggering End Game.");
+            TriggerEndGame(); // End the game
 
             //waveSpawner.enabled = true;
             //waveSpawner.EndPlanning();
         } else
         {
-            Debug.Log("GameManager: Max levels reached or exceeded. Triggering End Game."); // <-- ADD THIS LINE
-            TriggerEndGame();
+            // There are more unique levels to play. Load the next one.
+            // levelsCompleted is a 1-based count of completed levels.
+            // If 1 level is completed, the next level to load is "Level02".
+            string nextSequentialLevel = "Level0" + (levelsCompleted + 1);
+            Debug.Log($"[GameManager.HandleLevelComplete] Proceeding to next sequential level: {nextSequentialLevel}");
+            UnloadCurrentLevelAndLoadLevel(nextSequentialLevel);
         }
     }
 
