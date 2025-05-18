@@ -636,7 +636,7 @@ MonoBehaviour:
   workerIDCanvas: {fileID: 2039157850}
   gameOverUI: {fileID: 9216814473151053638, guid: 5e761a2d814224e4c80a2a543c59afb6, type: 3}
   pauseMenu: {fileID: 0}
-  uiMode: 2
+  uiMode: 1
   difficultyModifier: 1
   difficultyIncrease: 0.01
   difficultyDecrease: 0.1
