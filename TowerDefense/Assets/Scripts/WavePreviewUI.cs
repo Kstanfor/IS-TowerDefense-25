@@ -36,7 +36,10 @@ public class WavePreviewUI : MonoBehaviour
 
     void OnDestroy()
     {
-        spawner.OnWaveStart -= OnWaveStart;
+        if (spawner != null)
+        {
+            spawner.OnWaveStart -= OnWaveStart;
+        }
     }
 
     // Event handler: updates when a new wave actually begins

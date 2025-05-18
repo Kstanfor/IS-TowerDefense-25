@@ -7,6 +7,7 @@ using System.ComponentModel.Design;
 
 
 
+
 //version stuff - Study Design
 public enum UIMode
     {
@@ -78,8 +79,8 @@ public class GameManager : MonoBehaviour
     }
 
     [Header("End-Game Settings")]
-    [Tooltip("How many levels to play before forcing end")]
-    public int maxLevels = 5;
+    //[Tooltip("How many levels to play before forcing end")]
+    //public int maxLevels = 5;
     [Tooltip("How many seconds to play before forcing end (30 min = 1800 s)")]
     public float maxTime = 1800f;
     private float elapsedTime;
@@ -88,11 +89,13 @@ public class GameManager : MonoBehaviour
     [Tooltip("Minimum total levels completed for the game to end when maxTime is reached.")]
     public int minLevelsForTimerEndCondition = 5;
 
-    //[Tooltip("The total number of unique game levels available (e.g., if you have Level01 to Level05, this is 5). Set this accurately in the Inspector.")]
-    //public int totalUniqueLevels = 5; // EXAMPLE: Set this to how many actual unique level scenes you have
+    [Tooltip("The total number of unique game levels in a sequence (e.g., if you have Level01 to Level05, this is 5). Set this accurately in the Inspector.")]
+    public int uniqueLevelsInSequence = 10; // EXAMPLE: Set this to how many actual unique level scenes you have
 
-    //[Tooltip("Minimum total levels that must be played to enable looping after all unique levels are complete.")]
-    //public int minTotalLevelsForLooping = 5;
+    private int currentLevelInSequenceIndex;
+
+    [Tooltip("Minimum total levels that must be played to enable looping after all unique levels are complete.")]
+    public int minLevelsPlayedForLooping = 5;
 
 
     [Header("AFK Pause Settings")]
@@ -229,11 +232,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void Start()
-    {
-        if (instance != this) return;
+   // void Start()
+   // {
+     //   if (instance != this) return;
         //waveSpawner?.EndPlanning();
-    }
+   // }
 
     void Update()
     {
@@ -245,7 +248,7 @@ public class GameManager : MonoBehaviour
 
         elapsedTime += Time.deltaTime;
         afkTimer += Time.deltaTime;
-        Debug.Log($"[Timer] elapsed={elapsedTime:F1}s  afk={afkTimer:F1}s");
+       // Debug.Log($"[Timer] elapsed={elapsedTime:F1}s  afk={afkTimer:F1}s");
         Debug.Log($"[GameManager.Update] Current Time.timeScale: {Time.timeScale}");
 
         if (Input.anyKeyDown || Input.GetMouseButtonDown(0))
@@ -258,7 +261,7 @@ public class GameManager : MonoBehaviour
             pauseMenu.Toggle();
         }
 
-        if (elapsedTime >= maxTime && levelsCompleted >= maxLevels && !GameIsOver)
+        if (elapsedTime >= maxTime && levelsCompleted >= minLevelsForTimerEndCondition && !GameIsOver)
         {
             TriggerEndGame();
         }
@@ -281,7 +284,13 @@ public class GameManager : MonoBehaviour
         if (GameIsOver) return; // Prevent multiple calls
         GameIsOver = true;
         Debug.Log("[GameManager] TriggerEndGame: GAME OVER!");
-        gameOverUI.SetActive(true);
+        if (gameOverUI != null)
+        {
+            gameOverUI.SetActive(true);
+        }else
+        {
+            Debug.LogError("[GameManager] TriggerEndGame: gameOverUI is null!");
+        }
     }
 
     void EndGame()
@@ -289,30 +298,56 @@ public class GameManager : MonoBehaviour
         if (GameIsOver) return; // Prevent multiple calls
         GameIsOver = true;
         Debug.LogWarning("[GameManager] EndGame: GAME OVER! - GameIsOver set to true.");
-        gameOverUI.SetActive(true);
+        if (gameOverUI != null)
+        {
+            gameOverUI.SetActive(true);
+        }
+        else
+        {
+            Debug.LogError("[GameManager] EndGame: gameOverUI is null!");
+        }
+        Time.timeScale = 0f;
     }
 
     public void HandleLevelComplete()
     {
-        Debug.Log("GameManager: HandleLevelComplete CALLED."); // <-- ADD THIS LINE
-        levelsCompleted++;
-        Debug.Log($"GameManager: levelsCompleted is now {levelsCompleted}. maxLevels is {maxLevels}."); // <-- ADD THIS LINE
+        if (GameIsOver) return; // Don't process if game already ended
 
-        if (levelsCompleted >= maxLevels)
-        {
-            // All unique levels (as defined by maxLevels) have been completed.
-            Debug.Log($"[GameManager.HandleLevelComplete] All {maxLevels} unique levels completed. Triggering End Game.");
-            TriggerEndGame(); // End the game
+        Debug.Log("GameManager: HandleLevelComplete CALLED.");
+        levelsCompleted++; // Increment total levels completed
+        currentLevelInSequenceIndex++; // Increment progress in the current unique sequence
 
-            //waveSpawner.enabled = true;
-            //waveSpawner.EndPlanning();
-        } else
+        Debug.Log($"GameManager: Total levelsCompleted is now {levelsCompleted}. Current level in sequence index is {currentLevelInSequenceIndex} (out of {uniqueLevelsInSequence}).");
+
+        // Check if a full sequence of unique levels has been completed
+        if (currentLevelInSequenceIndex >= uniqueLevelsInSequence)
         {
-            // There are more unique levels to play. Load the next one.
-            // levelsCompleted is a 1-based count of completed levels.
-            // If 1 level is completed, the next level to load is "Level02".
-            string nextSequentialLevel = "Level0" + (levelsCompleted + 1);
-            Debug.Log($"[GameManager.HandleLevelComplete] Proceeding to next sequential level: {nextSequentialLevel}");
+            Debug.Log($"[GameManager.HandleLevelComplete] Completed a full sequence of {uniqueLevelsInSequence} unique levels (total played: {levelsCompleted}). Checking loop conditions.");
+
+            // Conditions for looping:
+            // 1. Timer not done (elapsedTime < maxTime)
+            // 2. Minimum total levels played for looping met (levelsCompleted >= minLevelsPlayedForLooping)
+            if (elapsedTime < maxTime && levelsCompleted >= minLevelsPlayedForLooping)
+            {
+                Debug.Log($"[GameManager.HandleLevelComplete] LOOP CONDITIONS MET: elapsedTime ({elapsedTime:F1}s < {maxTime}s) AND total levelsCompleted ({levelsCompleted} >= {minLevelsPlayedForLooping}). Resetting sequence.");
+                currentLevelInSequenceIndex = 0; // Reset for the new loop
+                string firstLevelInSequence = "Level01"; // Assuming levels always start/loop to Level01
+                Debug.Log($"[GameManager.HandleLevelComplete] Looping back to {firstLevelInSequence}.");
+                UnloadCurrentLevelAndLoadLevel(firstLevelInSequence);
+            }
+            else
+            {
+                Debug.Log($"[GameManager.HandleLevelComplete] Loop conditions NOT met. elapsedTime: {elapsedTime:F1}s (maxTime: {maxTime}s), levelsCompleted: {levelsCompleted} (minForLooping: {minLevelsPlayedForLooping}). Triggering End Game.");
+                TriggerEndGame(); // End the game if loop conditions are not met after sequence completion
+            }
+        }
+        else
+        {
+            // Proceed to the next level in the current sequence
+            // currentLevelInSequenceIndex is 1-based for the *next* level number after increment.
+            // E.g., if currentLevelInSequenceIndex is 1, it means Level01 was just completed, next is Level02.
+            string nextSequentialLevel = "Level0" + (currentLevelInSequenceIndex + 1);
+            Debug.Log($"[GameManager.HandleLevelComplete] Proceeding to next sequential level in sequence: {nextSequentialLevel}");
             UnloadCurrentLevelAndLoadLevel(nextSequentialLevel);
         }
     }
@@ -355,6 +390,12 @@ public class GameManager : MonoBehaviour
 
     public void UnloadCurrentLevel()
     {
+        if (string.IsNullOrEmpty(CurrentLevelName))
+        {
+            Debug.LogWarning("[GameManager] UnloadCurrentLevel: CurrentLevelName is empty, nothing to unload.");
+            return;
+        }
+        Debug.Log($"[GameManager] UnloadCurrentLevel: Attempting to unload '{CurrentLevelName}'.");
         AsyncOperation ao = SceneManager.UnloadSceneAsync(CurrentLevelName);
         if (ao == null)
         {

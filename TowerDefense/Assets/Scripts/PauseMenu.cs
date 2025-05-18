@@ -4,6 +4,7 @@ using System.Globalization;
 using UnityEngine.UI;
 
 
+
 public class PauseMenu : MonoBehaviour
 {
     public GameObject ui;
@@ -16,7 +17,10 @@ public class PauseMenu : MonoBehaviour
     {
        if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.P))
         {
-            Toggle();
+            if (!GameManager.GameIsOver)
+            {
+                Toggle();
+            }
         }
 
         if (ui.activeSelf && timerText != null) 
@@ -27,34 +31,37 @@ public class PauseMenu : MonoBehaviour
 
     private void UpdateTimerText()
     {
+        if (timerText == null || GameManager.instance == null) return;
+
         var gm = GameManager.instance;
-        if (gm.RemainingTime <= 0f && gm.levelsCompleted < gm.maxLevels)
+
+        if (gm.RemainingTime <= 0f)
         {
-            timerText.text = $"{gm.levelsCompleted}/{gm.maxLevels} levels completed";
+            timerText.text = "Time: 00:00"; ;
         }
         else
         {
-            float rem = GameManager.instance.RemainingTime;
+            float rem = gm.RemainingTime;
             int m = Mathf.FloorToInt(rem / 60f);
             int s = Mathf.FloorToInt(rem % 60f);
             timerText.text = string.Format("{0:00}:{1:00}", m, s);
         }
+        timerText.text += $"\nLevels Completed: {gm.levelsCompleted}";
 
     }
 
     public void Toggle()
     {
+        if (GameManager.GameIsOver) return;
+
         ui.SetActive(!ui.activeSelf);
         Debug.Log($"[PauseMenu.Toggle] UI active: {ui.activeSelf}"); // Log UI state
 
         if (ui.activeSelf)
         {
-            if (timerText != null)
-            {
-                UpdateTimerText();
-            }
+            UpdateTimerText(); // Update text when pause menu is shown
             Time.timeScale = 0f;
-            Debug.Log("[PauseMenu.Toggle] Time.timeScale SET TO 0f"); // Log change
+            Debug.Log("[PauseMenu.Toggle] Time.timeScale SET TO 0f");
         }
         else
         {
@@ -65,7 +72,8 @@ public class PauseMenu : MonoBehaviour
 
     public void Retry()
     {
-        Toggle();
+        Time.timeScale = 1f;
+        //Toggle();
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
