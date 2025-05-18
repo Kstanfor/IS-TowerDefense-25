@@ -12361,7 +12361,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startMoney: 500
-  startLives: 10
 --- !u!114 &1000533925
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12374,18 +12373,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 402b2c8dcd02d864ba1714c8e4bc7cef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CurrentLevelName: 
+  workerIDCanvas: {fileID: 0}
+  gameOverUI: {fileID: 1375404314}
+  pauseMenu: {fileID: 0}
   uiMode: 0
   difficultyModifier: 1
   difficultyIncrease: 0.01
   difficultyDecrease: 0.1
   minDifficulty: 0.5
   maxDifficulty: 2
-  maxLevels: 5
   maxTime: 1800
+  minLevelsForTimerEndCondition: 5
+  uniqueLevelsInSequence: 10
+  minLevelsPlayedForLooping: 5
   afkTimeLimit: 15
-  pauseMenu: {fileID: 0}
-  gameOverUI: {fileID: 1375404314}
-  CurrentLevelName: 
 --- !u!114 &1000533926
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23469,7 +23471,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 219.14082, y: -37.61226}
+  m_AnchoredPosition: {x: 219.14082, y: -37.612305}
   m_SizeDelta: {x: 309, y: 25.9728}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1510028916488383838
@@ -23546,8 +23548,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 27.317627, y: -219.56085}
-  m_SizeDelta: {x: -239.6701, y: -510.1357}
+  m_AnchoredPosition: {x: 34.622314, y: 7}
+  m_SizeDelta: {x: -225.0607, y: -433.4999}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1841201681714761487
 CanvasRenderer:
@@ -23589,7 +23591,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.392}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -23733,7 +23735,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -303.82996, y: 124.76357}
+  m_AnchoredPosition: {x: -303.82993, y: 124.76367}
   m_SizeDelta: {x: -607.66, y: -249.5269}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2770796805158910603
@@ -23761,7 +23763,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 342, y: -43}
+  m_AnchoredPosition: {x: 284, y: -79}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &3044997743010635330
@@ -23965,7 +23967,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 219.14082, y: -112.83677}
+  m_AnchoredPosition: {x: 219.14082, y: -112.83667}
   m_SizeDelta: {x: 309, y: 25.9728}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &4342351489049458891
@@ -24040,7 +24042,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: New Text
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -24049,8 +24051,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4278190080
+  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -24067,8 +24069,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 20
+  m_fontSizeBase: 20
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -24350,7 +24352,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 164.18, y: -42.423}
+  m_AnchoredPosition: {x: 164.18, y: -42.423096}
   m_SizeDelta: {x: 328.36, y: 84.846}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1001 &6310119727604655110
@@ -24601,7 +24603,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 11.483643, y: 7.5553894}
+  m_AnchoredPosition: {x: 11.483643, y: 7.55542}
   m_SizeDelta: {x: -361.7183, y: -111.28}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &7179503839284798684
@@ -24647,24 +24649,24 @@ MonoBehaviour:
   sentences:
   - Welcome to Elemental Barrage! This is a Tower Defense Game. Pick, Place, and
     Play!
-  - THere are a few things that you would wnat to keep in mind! You have Money, Located
-    on the bottom left of the map, A prewave timer and ready check in the bottom
-    right, and lastly and the top of the map you have your life points!
+  - 'THere are a few things that you would wnat to keep in mind! '
+  - You have Money, Located on the bottom left of the map, A prewave timer and ready
+    check in the bottom right, and lastly and the top of the map you have your life
+    points!
   - Ok, now onto the good stuff turrets and enemies! so there is Rock, Paper, and
     Sciccors elment to this game. We have Normal, Fire, Ice, and Water!
-  - Normal is pretty basic doenst lose or beat other elements. Fire is strong against
-    Ice but weak to Water, Ice is Weak to Fire but Strong against Water. Lastly,
-    Water is strong against Fire and Weak Against Ice. Lets call it Simple Science.
-  - Normal is pretty basic doenst lose or beat other elements. Fire is strong against
-    Ice but weak to Water, Ice is Weak to Fire but Strong against Water. Lastly,
-    Water is strong against Fire and Weak Against Ice. Lets call it Simple Science.
+  - 'Normal is pretty basic doenst lose or beat other elements. '
+  - Fire is strong against Ice but weak to Water
+  - Ice is Weak to Fire but Strong against Water
+  - Water is strong against Fire and Weak Against Ice. Lets call it Simple Science.
   - Now onto Turrets! you have a set of options for a standard turret, missle launcher,
-    and a laserbeamer. For the standard turret and teh Missle launcher can be baught
-    in various elmental Versions and all follow the rock, paper, scissors rules
-  - Click on the icon of the type of utrrent and the element and then choose one
-    of the nodes to palce them! Also, remember i mentioned you had soem moeny well
-    thats how you are able to pay for these cool turrets and you get more as you
-    kills various enemies!
+    and a laserbeamer.
+  - ' For the standard turret and teh Missle launcher can be baught in various elmental
+    Versions and all follow the rock, paper, scissors rules'
+  - 'Click on the icon of the type of utrrent and the element and then choose one
+    of the nodes to palce them! '
+  - Also, remember i mentioned you had soem moeny well thats how you are able to
+    pay for these cool turrets and you get more as you kills various enemies!
   - Ill let you go now give it a whirl and enjoy the game!
   typingSpeed: 0.02
   continueButton: {fileID: 696208901733020201}
