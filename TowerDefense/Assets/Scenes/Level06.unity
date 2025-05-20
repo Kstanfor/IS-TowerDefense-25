@@ -6230,6 +6230,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1144618381871378285, guid: a1196e82ce3c64249890112c02bc958b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 686503939}
+    - target: {fileID: 1144618381871378285, guid: a1196e82ce3c64249890112c02bc958b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SelectIceMissleLauncher
+      objectReference: {fileID: 0}
     - target: {fileID: 4177535626663797661, guid: a1196e82ce3c64249890112c02bc958b, type: 3}
       propertyPath: m_Name
       value: ShopIceMissleLauncher
@@ -6463,6 +6471,14 @@ PrefabInstance:
     - target: {fileID: 6169566531828148898, guid: 1022a3d15b746014bb400d02a116a016, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8577428013971523128, guid: 1022a3d15b746014bb400d02a116a016, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 686503939}
+    - target: {fileID: 8577428013971523128, guid: 1022a3d15b746014bb400d02a116a016, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SelectFireStandardTurret
       objectReference: {fileID: 0}
     - target: {fileID: 9164249410575234228, guid: 1022a3d15b746014bb400d02a116a016, type: 3}
       propertyPath: m_Name
@@ -10425,6 +10441,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 686503935}
     m_Modifications:
+    - target: {fileID: 4145611946851903563, guid: 335f2a1882592be4184e1143dd6394c4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 686503939}
+    - target: {fileID: 4145611946851903563, guid: 335f2a1882592be4184e1143dd6394c4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SelectWaterMissleLauncher
+      objectReference: {fileID: 0}
     - target: {fileID: 5670655382987674187, guid: 335f2a1882592be4184e1143dd6394c4, type: 3}
       propertyPath: m_Name
       value: ShopWaterMissleLauncher
@@ -10787,6 +10811,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 686503935}
     m_Modifications:
+    - target: {fileID: 31592558575074176, guid: 030e52d9e5e4d5748aea10e4d1d9688b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 686503939}
+    - target: {fileID: 31592558575074176, guid: 030e52d9e5e4d5748aea10e4d1d9688b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SelectIceStandardTurret
+      objectReference: {fileID: 0}
     - target: {fileID: 163564679764281674, guid: 030e52d9e5e4d5748aea10e4d1d9688b, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -12021,6 +12053,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 686503935}
     m_Modifications:
+    - target: {fileID: 1498778085542792963, guid: 0b9eb62f251dc74468fa9e8aaeebb4f7, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 686503939}
+    - target: {fileID: 1498778085542792963, guid: 0b9eb62f251dc74468fa9e8aaeebb4f7, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SelectWaterStandardTurret
+      objectReference: {fileID: 0}
     - target: {fileID: 7819745395835036148, guid: 0b9eb62f251dc74468fa9e8aaeebb4f7, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -17130,6 +17170,14 @@ PrefabInstance:
     - target: {fileID: 7310013406362970042, guid: 722e9872ebe003d489bc98e5f679b221, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8214202402012795400, guid: 722e9872ebe003d489bc98e5f679b221, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 686503939}
+    - target: {fileID: 8214202402012795400, guid: 722e9872ebe003d489bc98e5f679b221, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SelectFireMissleLauncher
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
