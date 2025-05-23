@@ -2880,6 +2880,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PrewaveReady
       objectReference: {fileID: 0}
+    - target: {fileID: 4126640331541040229, guid: 8dd1611ed1ef5fa4cbcddc31f423078c, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8524970178290408099, guid: 8dd1611ed1ef5fa4cbcddc31f423078c, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
