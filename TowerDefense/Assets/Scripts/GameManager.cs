@@ -297,6 +297,7 @@ public class GameManager : MonoBehaviour
     {
         if (GameIsOver) return; // Prevent multiple calls
         GameIsOver = true;
+        gameOverUI.transform.SetAsLastSibling();
         Debug.LogWarning("[GameManager] EndGame: GAME OVER! - GameIsOver set to true.");
         if (gameOverUI != null)
         {
