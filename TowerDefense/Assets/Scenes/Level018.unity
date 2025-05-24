@@ -8608,11 +8608,11 @@ MonoBehaviour:
     enemies:
     - enemy: {fileID: 7929051170046490143, guid: 733f5cc1e028466469c9e358192b1192, type: 3}
       count: 1
-    - enemy: {fileID: 7929051170046490143, guid: 69d141bc2db37d644a2301d6208b08f9, type: 3}
+    - enemy: {fileID: 7929051170046490143, guid: e1893efc18c79144bb383428c5348884, type: 3}
       count: 1
-    - enemy: {fileID: 7929051170046490143, guid: e3415ccfc63bdab41b49cfdc337e01c7, type: 3}
+    - enemy: {fileID: 7929051170046490143, guid: bf7b9231159a1c3449ab82465105cee2, type: 3}
       count: 1
-    - enemy: {fileID: 7929051170046490143, guid: 61fd2a2e75936954f8e2564f57549333, type: 3}
+    - enemy: {fileID: 7929051170046490143, guid: 9e5aeb691cef2e243b6553bf4f6d6956, type: 3}
       count: 1
   spawnPoint: {fileID: 297776289}
   betweenWaves: 5
@@ -10654,6 +10654,14 @@ PrefabInstance:
     - target: {fileID: 7737093421728042545, guid: fdefe5bbead3b634db4c12f93387427d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7995897315175631191, guid: fdefe5bbead3b634db4c12f93387427d, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1000533926}
+    - target: {fileID: 7995897315175631191, guid: fdefe5bbead3b634db4c12f93387427d, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Toggle
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
