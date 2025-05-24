@@ -8,11 +8,16 @@ public class CameraController : MonoBehaviour
 {
 
     public float panSpeed = 20f;
-    public float panBoarderThickness = 10f;
+    public float panBoarderThickness = 5f;
 
     public float scrollSpeed = 5f;
-    public float minY = 10f;
-    public float maxY = 80f;
+
+    public float minX = 2f;
+    public float maxX = 42f;
+    public float minY = 72f; // Updated Y min
+    public float maxY = 100f; // Updated Y max
+    public float minZ = -100f; // Note: -100 is lower than -46
+    public float maxZ = -46f;  // Note: -46 is higher than -100
 
     // Start is called before the first frame update
     void Start()
@@ -52,7 +57,15 @@ public class CameraController : MonoBehaviour
         Vector3 pos = transform.position;
         
         pos.y -= Scroll * 1000 * scrollSpeed * Time.deltaTime;
+
+
         pos.y = Mathf.Clamp(pos.y, minY, maxY);
+
+        // Clamp X position
+        pos.x = Mathf.Clamp(pos.x, minX, maxX);
+
+        // Clamp Z position
+        pos.z = Mathf.Clamp(pos.z, minZ, maxZ);
 
         transform.position = pos;
 

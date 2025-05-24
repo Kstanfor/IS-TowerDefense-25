@@ -11033,7 +11033,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &911001668
 RectTransform:
   m_ObjectHideFlags: 0
@@ -11800,7 +11800,6 @@ GameObject:
   - component: {fileID: 1000533921}
   - component: {fileID: 1000533923}
   - component: {fileID: 1000533924}
-  - component: {fileID: 1000533925}
   - component: {fileID: 1000533926}
   m_Layer: 0
   m_Name: GameMaster
@@ -11882,33 +11881,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startMoney: 500
---- !u!114 &1000533925
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1000533920}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 402b2c8dcd02d864ba1714c8e4bc7cef, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CurrentLevelName: 
-  workerIDCanvas: {fileID: 0}
-  gameOverUI: {fileID: 1375404314}
-  pauseMenu: {fileID: 0}
-  uiMode: 0
-  difficultyModifier: 1
-  difficultyIncrease: 0.01
-  difficultyDecrease: 0.1
-  minDifficulty: 0.5
-  maxDifficulty: 2
-  maxTime: 1800
-  minLevelsForTimerEndCondition: 5
-  uniqueLevelsInSequence: 10
-  minLevelsPlayedForLooping: 5
-  afkTimeLimit: 15
 --- !u!114 &1000533926
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11922,7 +11894,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ui: {fileID: 2053596276}
-  timerText: {fileID: 0}
+  timerText: {fileID: 1412617006}
   levelToLoad: MainMenu
 --- !u!1001 &1070436730
 PrefabInstance:
@@ -20711,7 +20683,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2096207611
 RectTransform:
   m_ObjectHideFlags: 0
@@ -21465,7 +21437,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &732982830289161910
 MonoBehaviour:
   m_ObjectHideFlags: 0
