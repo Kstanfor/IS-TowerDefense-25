@@ -209,6 +209,9 @@ public class GameManager : MonoBehaviour
                 Debug.Log($"[GameManager.OnSceneLoaded] After SetActive(false), ui.activeSelf: {pauseMenu.ui.activeSelf}");
             }
 
+            // Find the GameOverUI in the loaded scene
+            gameOverUI = GameObject.FindGameObjectWithTag("GameOverUI");
+
             if (gameOverUI != null)
             {
                 gameOverUI.SetActive(false);
