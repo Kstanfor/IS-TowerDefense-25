@@ -62,11 +62,13 @@ public class PauseMenu : MonoBehaviour
             UpdateTimerText(); // Update text when pause menu is shown
             Time.timeScale = 0f;
             Debug.Log("[PauseMenu.Toggle] Time.timeScale SET TO 0f");
+            if (GameManager.instance != null) GameManager.instance.StartLevelPauseTracking();
         }
         else
         {
             Time.timeScale = 1f;
             Debug.Log("[PauseMenu.Toggle] Time.timeScale SET TO 1f"); // Log change
+            if (GameManager.instance != null) GameManager.instance.EndLevelPauseTracking();
         }
     }
 

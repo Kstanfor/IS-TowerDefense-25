@@ -776,6 +776,7 @@ GameObject:
   - component: {fileID: 1300885943}
   - component: {fileID: 1300885948}
   - component: {fileID: 1300885949}
+  - component: {fileID: 1300885950}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -795,6 +796,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 402b2c8dcd02d864ba1714c8e4bc7cef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  totalPauseTime: 0
+  totalEnemiesKilled: 0
+  turretsPurchasedTotal: 0
+  healthLossTotal: 0
+  totalGoldEarned: 0
+  totalGoldSpent: 0
+  allLevelStats: []
   CurrentLevelName: 
   workerIDCanvas: {fileID: 2039157850}
   gameOverUI: {fileID: 1968304073}
@@ -806,6 +814,7 @@ MonoBehaviour:
   minDifficulty: 0.5
   maxDifficulty: 2
   maxTime: 1800
+  elapsedTime: 0
   minLevelsForTimerEndCondition: 5
   uniqueLevelsInSequence: 30
   minLevelsPlayedForLooping: 5
@@ -874,6 +883,19 @@ MonoBehaviour:
   readyButton: {fileID: 7677493472399007528, guid: 8dd1611ed1ef5fa4cbcddc31f423078c, type: 3}
   randomizeEnemyOrder: 1
   waveCountdownText: {fileID: 4594332125100904610, guid: 1f59cb3327e02ba46b9d67225347e5d2, type: 3}
+--- !u!114 &1300885950
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1300885942}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3181a2d1faf913498ec0c1c816eef8f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  numberOfExpectedLevelEntries: 30
 --- !u!1 &1517338950
 GameObject:
   m_ObjectHideFlags: 0

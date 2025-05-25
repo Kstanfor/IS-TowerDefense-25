@@ -70,6 +70,11 @@ public class Node : MonoBehaviour
 
         PlayerStats.Money -= blueprint.cost;
 
+        if (GameManager.instance != null)
+        {
+            GameManager.instance.RecordTurretPurchased(blueprint.cost);
+        }
+
         GameObject _turret = (GameObject)Instantiate(blueprint.prefab, GetBuildPosition(), Quaternion.identity); // added this.transform
 
         _turret.transform.SetParent(this.transform, true);

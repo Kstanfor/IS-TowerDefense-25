@@ -86,6 +86,12 @@ public class Enemyv2 : MonoBehaviour
     void Die()
     {
         GameObject effect = Instantiate(deathEffect, transform.position, Quaternion.identity);
+
+        if (GameManager.instance != null)
+        {
+            GameManager.instance.RecordEnemyKilled(valueOfEnemy); // valueOfEnemy is gold
+        }
+
         PlayerStats.Money += valueOfEnemy;
         WaveSpawner.EnemiesAlive--;
 

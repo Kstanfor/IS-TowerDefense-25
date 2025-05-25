@@ -6,6 +6,35 @@ using System.ComponentModel.Design;
 
 
 
+
+[System.Serializable]
+public class LevelStats
+{
+    public string levelName;
+    public int livesLost_level;
+    public float pauseTime_level; // Pause time accumulated during this level
+    public int enemiesKilled_level;
+    public int turretsPurchased_level;
+    public bool complete;
+    public int goldEarned_level;
+    public int goldSpent_level;
+    public float playTime_level; // Active play time for this level
+
+    public LevelStats(string name)
+    {
+        levelName = name;
+        livesLost_level = 0;
+        pauseTime_level = 0f;
+        enemiesKilled_level = 0;
+        turretsPurchased_level = 0;
+        complete = false;
+        goldEarned_level = 0;
+        goldSpent_level = 0;
+        playTime_level = 0f;
+    }
+}
+
+
 //version stuff - Study Design
 public enum UIMode
     {
@@ -18,6 +47,29 @@ public enum UIMode
 
 public class GameManager : MonoBehaviour
 {
+
+    [Header("Datamining Stats - Global")]
+    public float totalPauseTime = 0f;
+    // public float totalPlayTime; // Existing 'elapsedTime' can serve this if it tracks unpaused time
+    public int totalEnemiesKilled = 0;
+    public int turretsPurchasedTotal = 0;
+    public int healthLossTotal = 0; // Total lives lost across all levels
+    public int totalGoldEarned = 0;
+    public int totalGoldSpent = 0;
+    // 'levelsCompleted' is already tracked
+    // 'WorkerID' is already tracked
+    // 'uiMode' is already tracked
+
+    [Header("Datamining Stats - Per Level")]
+    public List<LevelStats> allLevelStats = new List<LevelStats>();
+    private LevelStats currentLevelStats;
+    private float currentLevelStartTime; // Time.time when level began
+    private int livesAtLevelStart;
+    private float currentLevelPauseStartTime; // Time.unscaledTime when pause begins for current level
+    private bool isCurrentlyPausedForDataTracking = false;
+    private int previousPlayerLives; // For tracking health loss
+
+
     //SINGLETON & STATE
     public static GameManager instance; //{ get; private set; }
     //possible singleton stuff
@@ -81,7 +133,7 @@ public class GameManager : MonoBehaviour
     //public int maxLevels = 5;
     [Tooltip("How many seconds to play before forcing end (30 min = 1800 s)")]
     public float maxTime = 1800f;
-    private float elapsedTime;
+    public float elapsedTime;
 
      [Header("New End-Game & Loop Settings")]
     [Tooltip("Minimum total levels completed for the game to end when maxTime is reached.")]
@@ -119,6 +171,15 @@ public class GameManager : MonoBehaviour
             elapsedTime = 0f;
             afkTimer = 0f;
             levelsCompleted = 0;
+
+            // Initialize global datamining stats that are not reset per level
+            totalPauseTime = 0f;
+            totalEnemiesKilled = 0;
+            turretsPurchasedTotal = 0;
+            healthLossTotal = 0;
+            totalGoldEarned = 0;
+            totalGoldSpent = 0;
+            previousPlayerLives = PlayerStats.Lives; // Initialize with starting lives
 
             SceneManager.sceneLoaded += OnSceneLoaded; // <-- KEY CHANGE: Subscribe here
             Debug.Log($"[GameManager] Awake: Singleton instance created. Subscribed to SceneManager.sceneLoaded.");
@@ -219,6 +280,17 @@ public class GameManager : MonoBehaviour
                 Debug.LogError("[GameManager] gameOverUI wasn’t wired in the inspector or found in scene!");
             }
 
+            Debug.Log($"[GameManager_Data] Initializing stats for level: {scene.name}");
+            currentLevelStats = new LevelStats(scene.name);
+            allLevelStats.Add(currentLevelStats);
+
+            currentLevelStartTime = Time.time;
+            livesAtLevelStart = PlayerStats.Lives; //
+            previousPlayerLives = PlayerStats.Lives; // Reset for the new level, to correctly track lives lost *within* this level
+                                                     // any other level-specific temporary trackers could be reset here
+                                                     // For example, ensure isCurrentlyPausedForDataTracking is false if it's level-specific.
+            isCurrentlyPausedForDataTracking = false;
+
         }
     }
 
@@ -246,6 +318,20 @@ public class GameManager : MonoBehaviour
         {
             return;
         }
+
+        // Accumulate play time for the current level if it's active and game is not paused
+        if (currentLevelStats != null && Time.timeScale > 0f)
+        {
+            currentLevelStats.playTime_level += Time.deltaTime;
+        }
+
+        // Track health loss
+        if (PlayerStats.Lives < previousPlayerLives)
+        {
+            int livesLostThisFrame = previousPlayerLives - PlayerStats.Lives;
+            RecordHealthLost(livesLostThisFrame);
+        }
+        previousPlayerLives = PlayerStats.Lives; // Update for the next frame
 
         elapsedTime += Time.deltaTime;
         afkTimer += Time.deltaTime;
@@ -322,6 +408,16 @@ public class GameManager : MonoBehaviour
         if (GameIsOver) return; // Don't process if game already ended
 
         Debug.Log("GameManager: HandleLevelComplete CALLED.");
+
+        if (currentLevelStats != null)
+        {
+            currentLevelStats.complete = true;
+            // playTime_level is already accumulated in Update.
+            // livesLost_level is accumulated by RecordHealthLost.
+            // Other stats (enemies, turrets, gold) are accumulated by their respective methods.
+            Debug.Log($"[GameManager_Data] Finalized stats for {currentLevelStats.levelName}: PlayTime={currentLevelStats.playTime_level}, LivesLost={currentLevelStats.livesLost_level}, GoldEarned={currentLevelStats.goldEarned_level}");
+        }
+
         levelsCompleted++; // Increment total levels completed
         currentLevelInSequenceIndex++; // Increment progress in the current unique sequence
 
@@ -483,7 +579,60 @@ public class GameManager : MonoBehaviour
         // Load your next scene (replace "MainMenu" with whatever comes next)
         GameManager.instance.LoadLevel("Level01");
     }
-    
+
+    public void StartLevelPauseTracking()
+    {
+        if (!isCurrentlyPausedForDataTracking && currentLevelStats != null)
+        {
+            currentLevelPauseStartTime = Time.unscaledTime; // Use unscaledTime as Time.timeScale will be 0
+            isCurrentlyPausedForDataTracking = true;
+        }
+    }
+
+    public void EndLevelPauseTracking()
+    {
+        if (isCurrentlyPausedForDataTracking && currentLevelStats != null)
+        {
+            float pauseDuration = Time.unscaledTime - currentLevelPauseStartTime;
+            totalPauseTime += pauseDuration;
+            currentLevelStats.pauseTime_level += pauseDuration;
+            isCurrentlyPausedForDataTracking = false;
+            Debug.Log($"[GameManager_Data] Level pause ended. Duration: {pauseDuration}. LevelTotalPause: {currentLevelStats.pauseTime_level}. GameTotalPause: {totalPauseTime}");
+        }
+    }
+
+    public void RecordEnemyKilled(int goldValueFromEnemy)
+    {
+        totalEnemiesKilled++;
+        totalGoldEarned += goldValueFromEnemy; // Assuming enemy value is direct gold earned
+
+        if (currentLevelStats != null)
+        {
+            currentLevelStats.enemiesKilled_level++;
+            currentLevelStats.goldEarned_level += goldValueFromEnemy;
+        }
+    }
+
+    public void RecordTurretPurchased(int cost)
+    {
+        turretsPurchasedTotal++;
+        totalGoldSpent += cost;
+
+        if (currentLevelStats != null)
+        {
+            currentLevelStats.turretsPurchased_level++;
+            currentLevelStats.goldSpent_level += cost;
+        }
+    }
+
+    public void RecordHealthLost(int amount)
+    {
+        healthLossTotal += amount;
+        if (currentLevelStats != null)
+        {
+            currentLevelStats.livesLost_level += amount;
+        }
+    }
 
 }
 

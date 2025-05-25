@@ -3,106 +3,108 @@ using System.Collections;
 using System.Collections.Generic;
 
 using System.IO;
+using System.Text;
 using UnityEngine;
 using UnityEngine.Networking;
 
 public class DataMiner : MonoBehaviour
 {
-    public static DataMiner dataMiner;
+    public static DataMiner instance; // Changed from dataMiner for conventional singleton naming
 
-    List<KeyValuePair<int, int>> LevelLog = new List<KeyValuePair<int, int>>();
-    public List<string> LevelLogStrings = new List<string>();
-    string logString = "";
-    StreamWriter file;
-    int LevelDeaths = 0;
-    int LevelKills = 0;
-    int totalDeaths = 0;
-    int levelDeaths = 0;
-    int totalKills = 0;
-    string turretTypes;
-    KeyValuePair<int, int> currentTime;
-    string adjustedTimeStamp = "";
-    public int numberOfLogableLevels = 0;
-    public static string workerID = "";
-    bool dataHasBeenSent = false;
-    private static int levelsCompleted;
+    public int numberOfExpectedLevelEntries = 30; // e.g., if you expect up to Level30
 
-    public Dictionary<int, int> NPC_Conversations = new Dictionary<int, int>();
-    public List<Vector2> positionLog;
+    private bool dataHasBeenSent = false;
+    private string phpPostURL = "https://gamesux.com/fromunity_elementalbarrage.php"; // Your PHP endpoint
 
+    // Variables from original DataMiner that might be used by WriteTextViaPHP or its setup
+    // string logString = ""; // This will be built by CollectAndSendData now
+    // List<string> LevelLogStrings = new List<string>(); // Replaced by direct access to GameManager.allLevelStats
+    // static string workerID = ""; // Will get this from GameManager
 
     private void Awake()
     {
-        dataMiner = GameObject.Find("DataMiner").GetComponent<DataMiner>();
-    }
-
-    public void AddDeathToLog()
-    {
-        totalDeaths++;
-        levelDeaths++;
-    }
-
-    public void AddKillToLog()
-    {
-        totalKills++;
-    }
-
-    public void LogLevelCompletion() //call after every level finish
-    {
-        //AdjustedTimeStamp(ref LevelLog);
-
-        string LevelString = adjustedTimeStamp + ",";
-        LevelString += LevelDeaths + ",";
-        LevelString += LevelKills + ",";
-        List<float> difficultyLevels = new List<float>();
-        //LevelString += GameManager.gameManager.GetDifficultyAverage(difficultyLevels) + ",";
-        //LevelString += completed + ",";
-        //if (completed) { LevelCompleted++; }
-
-        LevelLogStrings.Add(LevelString);
-        LevelDeaths = 0;
-        LevelKills = 0;
-    }
-
-    public void LogData()
-    {
-        string positionLogString = workerID + "," + DateTime.Now + ",";
-        foreach (Vector2 pos in positionLog)
+        if (instance == null)
         {
-            int tempX = Mathf.RoundToInt(pos.x);
-            int tempY = Mathf.RoundToInt(pos.y);
-            positionLogString += tempX + ":" + tempY + "|";
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    public void CollectAndSendData()
+    {
+        if (dataHasBeenSent)
+        {
+            Debug.LogWarning("[DataMiner] Data has already been sent. Aborting.");
+            return;
         }
 
-        Debug.Log(positionLogString);
-
-        if (!dataHasBeenSent)
+        if (GameManager.instance == null)
         {
-            dataHasBeenSent = true;
-            logString += workerID + "," + DateTime.Now + "," + GameManager.instance.uiMode.ToString() + ",";
-            List<KeyValuePair<int, int>> blank = new List<KeyValuePair<int, int>>();
-            //AdjustTimeStamp(ref blank);
-
-            logString += levelsCompleted + ",";
-
-            //For all Levels incomplete, Adds default values in their place
-           // if (LevelLogStrings.Count < numberOfLogableLevels)
-           // {
-                //LogLevelCompletion(false);
-           //     while (LevelLogStrings.Count < numberOfLogableLevels)
-             //   {
-             //       LevelLogStrings.Add(-1 + "," + -1 + "," + -1 + "," + -1 + "," + "False, ");
-              //  }
-           // }
-
-            //Adds Level data to final log string
-            foreach (string s in LevelLogStrings) { logString += s; }
-
-            StartCoroutine(WriteTextViaPHP(logString, "https://gamesux.com/fromunity_elementalbarrage.php"));
-            //StartCoroutine(WriteTextViaPHP(positionLogString, "https://gamesux.com/fromunity_elementalbarrage_location.php"));
+            Debug.LogError("[DataMiner] GameManager instance not found. Cannot log data.");
+            return;
         }
 
+        GameManager gm = GameManager.instance;
+        StringBuilder sb = new StringBuilder();
 
+        // 1. Global Game Information
+        sb.Append(gm.WorkerID + ","); //
+        sb.Append(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + ",");
+        sb.Append(gm.uiMode.ToString() + ","); //
+
+        // 2. Global Gameplay Stats from GameManager
+        sb.Append(gm.levelsCompleted + ","); //
+        sb.Append(gm.totalPauseTime.ToString("F2") + ",");
+        sb.Append(gm.elapsedTime.ToString("F2") + ",");
+        sb.Append(gm.totalEnemiesKilled + ",");
+        sb.Append(gm.turretsPurchasedTotal + ",");
+        sb.Append(gm.healthLossTotal + ",");
+        sb.Append(gm.totalGoldEarned + ",");
+        sb.Append(gm.totalGoldSpent + ",");
+
+        // 3. Per-Level Stats from GameManager
+        int levelsLogged = 0;
+        foreach (LevelStats levelStat in gm.allLevelStats)
+        {
+            sb.Append(levelStat.livesLost_level + ",");
+            sb.Append(levelStat.pauseTime_level.ToString("F2") + ",");
+            sb.Append(levelStat.enemiesKilled_level + ",");
+            sb.Append(levelStat.turretsPurchased_level + ",");
+            sb.Append(levelStat.complete.ToString() + ",");
+            sb.Append(levelStat.goldEarned_level + ",");
+            sb.Append(levelStat.goldSpent_level + ",");
+            sb.Append(levelStat.playTime_level.ToString("F2") + ",");
+            levelsLogged++;
+        }
+
+        // 4. Padding for Expected Level Entries (Optional)
+        int statsPerLevel = 8;
+        if (numberOfExpectedLevelEntries > 0)
+        {
+            for (int i = levelsLogged; i < numberOfExpectedLevelEntries; i++)
+            {
+                for (int j = 0; j < statsPerLevel; j++)
+                {
+                    sb.Append("-1,");
+                }
+            }
+        }
+
+        if (sb.Length > 0 && sb[sb.Length - 1] == ',')
+        {
+            sb.Length--;
+        }
+
+        string finalLogString = sb.ToString(); // This replaces the global 'logString' field for local use here
+        Debug.Log("[DataMiner] Final Log String: " + finalLogString);
+
+        // Call your original WriteTextViaPHP
+        StartCoroutine(WriteTextViaPHP(finalLogString, phpPostURL));
+        dataHasBeenSent = true;
     }
 
     IEnumerator WriteTextViaPHP(string data, string destination)
@@ -127,7 +129,7 @@ public class DataMiner : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log("Logable Levels: " + numberOfLogableLevels);
+        //Debug.Log("Logable Levels: " + numberOfLogableLevels);
     }
 
     // Update is called once per frame
