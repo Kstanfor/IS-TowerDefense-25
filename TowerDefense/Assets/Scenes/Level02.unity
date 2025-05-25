@@ -9162,8 +9162,12 @@ MonoBehaviour:
   panSpeed: 30
   panBoarderThickness: 10
   scrollSpeed: 5
+  minX: 2
+  maxX: 42
   minY: 10
   maxY: 80
+  minZ: -100
+  maxZ: -46
 --- !u!1001 &968850046
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9706,7 +9710,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1000533920}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 79a95395b6848f6419cc3aff84668838, type: 3}
   m_Name: 

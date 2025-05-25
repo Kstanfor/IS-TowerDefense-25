@@ -7969,8 +7969,12 @@ MonoBehaviour:
   panSpeed: 30
   panBoarderThickness: 10
   scrollSpeed: 5
+  minX: 2
+  maxX: 42
   minY: 10
   maxY: 80
+  minZ: -100
+  maxZ: -46
 --- !u!1001 &968850046
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8277,7 +8281,7 @@ MonoBehaviour:
     - enemy: {fileID: 7929051170046490143, guid: e1893efc18c79144bb383428c5348884, type: 3}
       count: 1
     - enemy: {fileID: 7929051170046490143, guid: bf7b9231159a1c3449ab82465105cee2, type: 3}
-      count: 1
+      count: 2
     - enemy: {fileID: 7929051170046490143, guid: 9e5aeb691cef2e243b6553bf4f6d6956, type: 3}
       count: 1
   spawnPoint: {fileID: 297776289}
@@ -16217,6 +16221,10 @@ PrefabInstance:
     - target: {fileID: 9216814473151053638, guid: 5e761a2d814224e4c80a2a543c59afb6, type: 3}
       propertyPath: m_Name
       value: GameOver
+      objectReference: {fileID: 0}
+    - target: {fileID: 9216814473151053638, guid: 5e761a2d814224e4c80a2a543c59afb6, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

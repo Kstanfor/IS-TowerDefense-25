@@ -807,9 +807,9 @@ MonoBehaviour:
   maxDifficulty: 2
   maxTime: 1800
   minLevelsForTimerEndCondition: 5
-  uniqueLevelsInSequence: 15
+  uniqueLevelsInSequence: 30
   minLevelsPlayedForLooping: 5
-  afkTimeLimit: 15
+  afkTimeLimit: 60
 --- !u!114 &1300885944
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -6,8 +6,6 @@ using System.ComponentModel.Design;
 
 
 
-
-
 //version stuff - Study Design
 public enum UIMode
     {
@@ -266,7 +264,7 @@ public class GameManager : MonoBehaviour
 
         if (elapsedTime >= maxTime && levelsCompleted >= minLevelsForTimerEndCondition && !GameIsOver)
         {
-            TriggerEndGame();
+            TriggerEndGame(true);
         }
 
         if (Input.GetKeyDown("e") && !GameIsOver)
@@ -282,17 +280,23 @@ public class GameManager : MonoBehaviour
         } 
     }
 
-    private void TriggerEndGame()
+    private void TriggerEndGame(bool loadEndScene)
     {
         if (GameIsOver) return; // Prevent multiple calls
         GameIsOver = true;
-        Debug.Log("[GameManager] TriggerEndGame: GAME OVER!");
-        if (gameOverUI != null)
+        if (loadEndScene)
         {
-            gameOverUI.SetActive(true);
-        }else
+            Debug.Log("[GameManager] TriggerEndGame: Conditions met for EndScene transition. Loading EndScene.");
+            Time.timeScale = 0f; // Stop game time
+            SceneManager.LoadScene("EndScene"); // Ensure "EndScene" is in your Build Settings
+        }
+        else
         {
-            Debug.LogError("[GameManager] TriggerEndGame: gameOverUI is null!");
+            Debug.Log("[GameManager] TriggerEndGame: General game over (not specific EndScene condition).");
+            // This will be handled by EndGame(false) or other logic if needed.
+            // For now, if TriggerEndGame is called without loadEndScene true, it means game over by other means
+            // that should use the standard EndGame() logic.
+            EndGame(); // Default to standard game over if not specifically for EndScene
         }
     }
 
@@ -342,17 +346,26 @@ public class GameManager : MonoBehaviour
             else
             {
                 Debug.Log($"[GameManager.HandleLevelComplete] Loop conditions NOT met. elapsedTime: {elapsedTime:F1}s (maxTime: {maxTime}s), levelsCompleted: {levelsCompleted} (minForLooping: {minLevelsPlayedForLooping}). Triggering End Game.");
-                TriggerEndGame(); // End the game if loop conditions are not met after sequence completion
+                TriggerEndGame(true); // End the game if loop conditions are not met after sequence completion
             }
         }
         else
         {
+
+            if (elapsedTime >= maxTime && levelsCompleted >= minLevelsForTimerEndCondition)
+            {
+                Debug.Log($"[GameManager.HandleLevelComplete] Time up condition met after level completion. Triggering End Game for EndScene.");
+                TriggerEndGame(true); // Time up + levels condition met
+            }
             // Proceed to the next level in the current sequence
             // currentLevelInSequenceIndex is 1-based for the *next* level number after increment.
             // E.g., if currentLevelInSequenceIndex is 1, it means Level01 was just completed, next is Level02.
-            string nextSequentialLevel = "Level0" + (currentLevelInSequenceIndex + 1);
-            Debug.Log($"[GameManager.HandleLevelComplete] Proceeding to next sequential level in sequence: {nextSequentialLevel}");
-            UnloadCurrentLevelAndLoadLevel(nextSequentialLevel);
+            else
+            {
+                string nextSequentialLevelName = $"Level{(currentLevelInSequenceIndex + 1).ToString("D2")}"; // e.g. Level02, Level10
+                Debug.Log($"[GameManager.HandleLevelComplete] Proceeding to next sequential level in sequence: {nextSequentialLevelName}");
+                UnloadCurrentLevelAndLoadLevel(nextSequentialLevelName);
+            }
         }
     }
 
