@@ -82,6 +82,18 @@ public class Node : MonoBehaviour
         Destroy(effect, 5f);
 
         Debug.Log("Built Turret! Money Left: " + PlayerStats.Money);
+
+        // --- TUTORIAL INTEGRATION ---
+        // Attempt to find the TutorialManager in the scene
+        TutorialManager tutorialManager = FindObjectOfType<TutorialManager>();
+        if (tutorialManager != null)
+        {
+            // Notify the TutorialManager that a turret has been placed.
+            // The TutorialManager will check if this action was expected for the current tutorial step.
+            tutorialManager.NotifyTurretPlaced();
+        }
+        // --- END TUTORIAL INTEGRATION ---
+
     }
 
     public void UpgradeTurret()
