@@ -11810,7 +11810,6 @@ GameObject:
   - component: {fileID: 1000533923}
   - component: {fileID: 1000533924}
   - component: {fileID: 1000533926}
-  - component: {fileID: 1000533927}
   m_Layer: 0
   m_Name: GameMaster
   m_TagString: Untagged
@@ -11904,33 +11903,6 @@ MonoBehaviour:
   ui: {fileID: 2053596276}
   timerText: {fileID: 1412617006}
   levelToLoad: MainMenu
---- !u!114 &1000533927
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1000533920}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 402b2c8dcd02d864ba1714c8e4bc7cef, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CurrentLevelName: 
-  workerIDCanvas: {fileID: 0}
-  gameOverUI: {fileID: 0}
-  pauseMenu: {fileID: 0}
-  uiMode: 0
-  difficultyModifier: 1
-  difficultyIncrease: 0.01
-  difficultyDecrease: 0.1
-  minDifficulty: 0.5
-  maxDifficulty: 2
-  maxTime: 1800
-  minLevelsForTimerEndCondition: 5
-  uniqueLevelsInSequence: 10
-  minLevelsPlayedForLooping: 5
-  afkTimeLimit: 15
 --- !u!1001 &1070436730
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -21792,7 +21764,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.7294118}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
