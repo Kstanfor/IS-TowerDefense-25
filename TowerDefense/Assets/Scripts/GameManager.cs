@@ -212,7 +212,25 @@ public class GameManager : MonoBehaviour
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         Debug.Log($"[GameManager] OnSceneLoaded: Scene '{scene.name}' loaded with mode '{mode}'.");
-        if (scene.name.StartsWith("Level0"))
+
+        if (scene.name == "TutorialLevel") // Replace "TutorialLevel" if your scene name is different
+        {
+            Debug.Log($"[GameManager] OnSceneLoaded: Tutorial scene '{scene.name}' has loaded.");
+            // TutorialManager should handle its own WaveSpawner setup.
+            // We might not need to find the WaveSpawner for the GameManager here,
+            // as the TutorialManager uses its own reference.
+            // However, ensure PauseMenu and GameOverUI are handled if they exist in the tutorial scene.
+            pauseMenu = FindObjectOfType<PauseMenu>();
+            if (pauseMenu != null) pauseMenu.ui.SetActive(false);
+            else Debug.LogWarning($"[GameManager] PauseMenu not found in Tutorial scene: {scene.name}");
+
+            gameOverUI = GameObject.FindGameObjectWithTag("GameOverUI");
+            if (gameOverUI != null) gameOverUI.SetActive(false);
+            // Note: The tutorial scene typically wouldn't trigger a "game over" via GameManager.
+
+            // Skip formal LevelStats initialization for the tutorial if not needed
+        }
+        else if (scene.name.StartsWith("Level0"))
         {
             WaveSpawner newWaveSpawner = FindObjectOfType<WaveSpawner>();
 
@@ -578,6 +596,39 @@ public class GameManager : MonoBehaviour
 
         // Load your next scene (replace "MainMenu" with whatever comes next)
         GameManager.instance.LoadLevel("Level01");
+    }
+
+    public void LoadTutorialLevel(string tutorialSceneName)
+    {
+        if (workerIDCanvas != null)
+        {
+            workerIDCanvas.SetActive(false);
+        }
+        else
+        {
+            Debug.LogError("[GameManager] WorkerIDCanvas not found, cannot disable.");
+        }
+
+        Debug.Log($"[GameManager] LoadTutorialLevel: Loading {tutorialSceneName}.");
+        CurrentLevelName = tutorialSceneName; // Set CurrentLevelName so it can be unloaded later
+        LoadLevel(tutorialSceneName);         // LoadLevel is additive
+    }
+
+    // --- Method to be called by TutorialManager to start the main game ---
+    public void StartFirstRegularLevel()
+    {
+        Debug.Log("[GameManager] StartFirstRegularLevel: Transitioning from Tutorial to Level01.");
+
+        // Reset progression indices if the tutorial shouldn't count towards main game level sequence
+        currentLevelInSequenceIndex = 0;
+        levelsCompleted = 0; // Consider if tutorial completion should count. If not, uncomment.
+        // If tutorial completion *is* the first level, then this should not be 0.
+        // Based on current setup, TutorialManager handles its own wave completion,
+        // so levelsCompleted (GameManager's) isn't incremented by the tutorial.
+        // Thus, Level01 will be the first to increment it.
+
+        // Unload the tutorial level and load the first regular level
+        UnloadCurrentLevelAndLoadLevel("Level01");
     }
 
     public void StartLevelPauseTracking()

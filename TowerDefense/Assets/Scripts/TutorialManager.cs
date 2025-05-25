@@ -40,6 +40,9 @@ public class TutorialManager : MonoBehaviour
     private bool isTyping = false;
     private bool waitingForAction = false;
 
+    [Header("Post-Tutorial Settings")]
+    public float delayBeforeLoadingFirstLevel = 3f;
+
     void Start()
     {
         dialoguePanel.SetActive(false);
@@ -246,16 +249,39 @@ public class TutorialManager : MonoBehaviour
     void HandleTutorialWaveCompletion()
     {
         Debug.Log("Tutorial: Practice wave cleared!");
-        waveSpawner.OnAllWavesComplete -= HandleTutorialWaveCompletion; // Unsubscribe to prevent issues
-        waveSpawner.enabled = false; // Disable spawner after tutorial wave
+        if (waveSpawner != null) // Check if waveSpawner is not null before accessing it
+        {
+            waveSpawner.OnAllWavesComplete -= HandleTutorialWaveCompletion; // Unsubscribe to prevent issues
+            waveSpawner.enabled = false; // Disable spawner after tutorial wave
+        }
+        else
+        {
+            Debug.LogWarning("[TutorialManager] WaveSpawner was null when trying to unsubscribe or disable in HandleTutorialWaveCompletion.");
+        }
+
 
         // Display tutorial completion message
         dialoguePanel.SetActive(true);
         continueButton.gameObject.SetActive(false); // No more continuation
         StartCoroutine(TypeText("Tutorial Complete! You're ready to play."));
 
-        // Optional: After a delay, load the main menu or the first level
-        // StartCoroutine(LoadNextSceneAfterDelay(5f));
+        // After a delay, load the first regular level via GameManager
+        StartCoroutine(ProceedToFirstLevelAfterDelay(delayBeforeLoadingFirstLevel));
+    }
+
+    IEnumerator ProceedToFirstLevelAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        if (GameManager.instance != null)
+        {
+            Debug.Log("[TutorialManager] Proceeding to the first regular level.");
+            GameManager.instance.StartFirstRegularLevel();
+        }
+        else
+        {
+            Debug.LogError("[TutorialManager] GameManager instance not found! Cannot proceed to first level.");
+            // Fallback or error handling if GameManager is missing
+        }
     }
 
     void EndTutorialDialogue()

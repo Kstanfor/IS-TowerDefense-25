@@ -11482,7 +11482,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &970096119
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14893,6 +14893,7 @@ MonoBehaviour:
       count: 1
     - enemy: {fileID: 7929051170046490143, guid: bf7b9231159a1c3449ab82465105cee2, type: 3}
       count: 1
+  delayBeforeLoadingFirstLevel: 3
 --- !u!4 &1418799072
 Transform:
   m_ObjectHideFlags: 0
