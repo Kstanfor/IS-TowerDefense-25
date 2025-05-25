@@ -4,12 +4,16 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 
+
 public class WorkerIDInput : MonoBehaviour
 {
     [Header("UI References")]
     [SerializeField] private InputField workerIDInputField;  // drag your InputField here
     [SerializeField] private Button submitButton;            // drag your Submit Button here
-    
+
+    [Header("Scene Camera")]
+    [SerializeField] private Camera startSceneCamera;
+
 
     private void Start()
     {
@@ -20,6 +24,15 @@ public class WorkerIDInput : MonoBehaviour
             Debug.LogError("[WorkerIDInput] No GameManager found in scene!");
             submitButton.interactable = false;
             return;
+        }
+
+        if (startSceneCamera == null)
+        {
+            startSceneCamera = Camera.main;
+            if (startSceneCamera == null)
+            {
+                Debug.LogWarning("[WorkerIDInput] Main Camera not found in the scene. Please assign it in the Inspector.");
+            }
         }
 
         // Wire up the button click
@@ -45,5 +58,16 @@ public class WorkerIDInput : MonoBehaviour
 
         // Load your next scene (replace "MainMenu" with whatever comes next)
         GameManager.instance.LoadTutorialLevel("TutorialLevel");
+
+        if (startSceneCamera != null)
+        {
+            startSceneCamera.gameObject.SetActive(false);
+            Debug.Log("[WorkerIDInput] Start scene camera disabled.");
+        }
+        else
+        {
+            Debug.LogWarning("[WorkerIDInput] Could not disable start scene camera because it's not assigned or found.");
+        }
+
     }
 }

@@ -833,6 +833,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   workerIDInputField: {fileID: 1096718202}
   submitButton: {fileID: 2097418543}
+  startSceneCamera: {fileID: 1602033548}
 --- !u!4 &1300885945
 Transform:
   m_ObjectHideFlags: 0
@@ -1071,7 +1072,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!81 &1602033547
 AudioListener:
   m_ObjectHideFlags: 0
@@ -1350,6 +1351,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   workerIDInputField: {fileID: 1096718202}
   submitButton: {fileID: 2097418543}
+  startSceneCamera: {fileID: 0}
 --- !u!1 &2097418541
 GameObject:
   m_ObjectHideFlags: 0
