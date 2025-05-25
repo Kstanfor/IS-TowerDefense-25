@@ -7855,8 +7855,12 @@ MonoBehaviour:
   panSpeed: 30
   panBoarderThickness: 10
   scrollSpeed: 5
+  minX: 2
+  maxX: 42
   minY: 10
   maxY: 80
+  minZ: -100
+  maxZ: -46
 --- !u!1 &970096118
 GameObject:
   m_ObjectHideFlags: 0
@@ -15398,6 +15402,10 @@ PrefabInstance:
     - target: {fileID: 9216814473151053638, guid: 5e761a2d814224e4c80a2a543c59afb6, type: 3}
       propertyPath: m_Name
       value: GameOver
+      objectReference: {fileID: 0}
+    - target: {fileID: 9216814473151053638, guid: 5e761a2d814224e4c80a2a543c59afb6, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
