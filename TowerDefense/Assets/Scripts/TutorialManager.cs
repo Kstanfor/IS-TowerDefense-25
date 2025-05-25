@@ -56,6 +56,21 @@ public class TutorialManager : MonoBehaviour
         {
             planningPanel.gameObject.SetActive(false);
         }
+
+        // --- REVISED: Disable PreviewPanel using its WavePreviewUI script ---
+        WavePreviewUI wavePreviewPanelCtrl = FindObjectOfType<WavePreviewUI>();
+        if (wavePreviewPanelCtrl != null)
+        {
+            // This will disable the GameObject that the WavePreviewUI script is attached to.
+            wavePreviewPanelCtrl.gameObject.SetActive(false);
+        }
+        else
+        {
+            // Optional: Log if you expect WavePreviewUI to always be present in a scene where TutorialManager might run
+            // Debug.LogWarning("[TutorialManager] WavePreviewUI component not found in the scene.");
+        }
+        // --- END REVISED ---
+
         // Ensure WaveSpawner doesn't start its normal planning phase logic if not desired
         if (waveSpawner != null)
         {
